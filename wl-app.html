@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="减肥工作台">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0f172a">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<title>减肥工作台 · 105→95 vApp</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f172a;--bg2:#1e293b;--bd:#334155;--tx:#f1f5f9;--tx2:#94a3b8;--tx3:#64748b;--p:#6366f1;--ph:#818cf8;--ps:rgba(99,102,241,.15);--s:#10b981;--ss:rgba(16,185,129,.15);--w:#f59e0b;--ws:rgba(245,158,11,.15);--d:#ef4444;--ds:rgba(239,68,68,.15);--i:#06b6d4;--is:rgba(6,182,212,.15);--pk:#ec4899;--pks:rgba(236,72,153,.15);--r:14px;--rs:8px}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;min-height:100vh;-webkit-tap-highlight-color:transparent;padding-bottom:80px}
+.hd{background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);padding:20px 16px 16px;position:relative;overflow:hidden}
+.hd::after{content:'';position:absolute;top:-50%;right:-20%;width:200px;height:200px;background:rgba(255,255,255,.06);border-radius:50%}
+.hs{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;position:relative;z-index:1}
+.hst{font-size:13px;color:rgba(255,255,255,.7)}
+.hst b{font-size:20px;color:#fff;display:block}
+.hsv{font-size:28px;color:#fff;font-weight:700}
+.hsv small{font-size:14px;font-weight:400;opacity:.7}
+.hsl{display:flex;gap:8px;position:relative;z-index:1}
+.hsc{flex:1;background:rgba(255,255,255,.15);border-radius:8px;padding:8px 10px;text-align:center;color:rgba(255,255,255,.8);font-size:11px}
+.hsc b{font-size:15px;color:#fff;display:block}
+.tb{display:flex;overflow-x:auto;background:var(--bg2);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--bd);-webkit-overflow-scrolling:touch}
+.tb::-webkit-scrollbar{display:none}
+.ti{flex-shrink:0;padding:12px 16px;font-size:13px;color:var(--tx2);border:none;background:none;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+.ti.ac{color:var(--ph);border-bottom-color:var(--p);font-weight:600}
+.ti .em{font-size:16px;display:block;margin-bottom:2px}
+.pg{display:none;padding:12px}
+.pg.ac{display:block}
+.card{background:var(--bg2);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.ch{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.ctt{font-size:15px;font-weight:600}
+.cs{font-size:11px;color:var(--tx3);margin-top:2px}
+.btn{display:inline-block;padding:8px 16px;background:var(--p);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none}
+.btn-sm{padding:4px 10px;font-size:11px;border-radius:6px}
+.btn-ghost{background:var(--ps);color:var(--ph)}
+.btn-s{background:var(--ss);color:var(--s)}
+.btn-w{background:var(--ws);color:var(--w)}
+.btn-d{background:var(--ds);color:var(--d)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.sc{text-align:center;padding:14px 10px;background:var(--bg2);border-radius:var(--r)}
+.scv{font-size:22px;font-weight:700}
+.scv small{font-size:11px;color:var(--tx3);font-weight:400}
+.scl{font-size:11px;color:var(--tx3);margin-top:2px}
+.st{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;margin-right:2px}
+.st.up{background:var(--ss);color:var(--s)}
+.st.down{background:var(--ds);color:var(--d)}
+.st.ne{background:var(--bg2);color:var(--tx2)}
+.pgbar{height:8px;background:var(--bg);border-radius:4px;margin-top:8px;overflow:hidden}
+.pgfill{height:100%;background:linear-gradient(90deg,#6366f1,#10b981);border-radius:4px;transition:width .5s}
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.fl{font-size:12px;color:var(--tx2)}
+.fi{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx);font-size:14px}
+.fi:focus{outline:none;border-color:var(--p)}
+.vf{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.fb{padding:5px 12px;background:var(--bg);border:1px solid var(--bd);border-radius:20px;font-size:11px;color:var(--tx2);cursor:pointer;transition:all .2s}
+.fb.active{background:var(--ps);border-color:var(--p);color:var(--ph)}
+.vc{border-radius:var(--r);overflow:hidden;background:var(--bg2);margin-bottom:8px}
+.vi{display:flex;gap:10px;padding:12px}
+.vthumb{width:100px;height:62px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#ec4899);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px}
+.vinfo{flex:1;min-width:0}
+.vt{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.va{font-size:11px;color:var(--tx3);margin-top:2px}
+.vm{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
+.vtg{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px}
+.vtg.strength{background:var(--ps);color:var(--ph)}
+.vtg.cardio{background:var(--ss);color:var(--s)}
+.vtg.hiit{background:var(--ds);color:var(--d)}
+.vtg.core{background:var(--ws);color:var(--w)}
+.vtg.stretch{background:var(--is);color:var(--i)}
+.rg{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:500px){.rg{grid-template-columns:1fr 1fr}}
+.rc{background:var(--bg2);border-radius:var(--r);overflow:hidden}
+.rh{padding:12px 12px 8px}
+.rn{font-size:14px;font-weight:600}
+.rtg{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.rt{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px}
+.rt.rtc{background:var(--ws);color:var(--w)}
+.rt.rts{background:var(--is);color:var(--i)}
+.rt.rtl{background:var(--pks);color:var(--pk)}
+.rt.rtlo{background:var(--ss);color:var(--s)}
+.rt.rth{background:var(--ps);color:var(--ph)}
+.rb{padding:0 12px 12px}
+.rstats{display:flex;gap:12px;margin-bottom:8px}
+.rs2{text-align:center}
+.rsv{font-size:16px;font-weight:700}
+.rsl{font-size:10px;color:var(--tx3)}
+.rst{font-size:11px;color:var(--tx3);margin:8px 0 4px;font-weight:600}
+.ri{font-size:12px;color:var(--tx2);line-height:1.8}
+.rsteps{list-style-position:inside;font-size:12px;color:var(--tx2);padding-left:0}
+.rsteps li{padding:3px 0;border-bottom:1px solid rgba(51,65,85,.3)}
+.rf{padding:10px 12px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.rtip{font-size:11px;color:var(--w)}
+.rvb{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:var(--ps);color:var(--ph);border-radius:20px;font-size:11px;text-decoration:none;font-weight:600}
+.wc-box{background:var(--bg2);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.wc-title{font-size:13px;color:var(--tx2);margin-bottom:10px}
+.wc-bars{display:flex;align-items:flex-end;gap:4px;height:150px;padding-top:20px;position:relative}
+.wc-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.wc-bar{width:100%;max-width:30px;border-radius:4px 4px 0 0;background:linear-gradient(180deg,#6366f1,#818cf8);min-height:4px;transition:height .3s}
+.wc-date{font-size:9px;color:var(--tx3);margin-top:4px;writing-mode:vertical-rl;text-orientation:mixed}
+.wc-line{position:absolute;left:0;right:0;border-top:1px dashed;z-index:0}
+.wc-line.goal{bottom:calc((95-90)/(108-90)*130px + 20px);border-color:var(--s)}
+.wc-line.start{bottom:calc((105-90)/(108-90)*130px + 20px);border-color:var(--d)}
+.wl-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--bg2);border-radius:8px;margin-bottom:6px}
+.wl-date{font-size:12px;color:var(--tx2)}
+.wl-val{font-size:15px;font-weight:700}
+.wl-val.down{color:var(--s)}
+.wl-val.up{color:var(--d)}
+.wl-val.ne{color:var(--tx2)}
+.wl-delta{font-size:10px;margin-left:6px}
+.dl-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg);border-radius:8px;margin-bottom:4px}
+.dl-name{font-size:12px}
+.dl-cals{font-size:11px;color:var(--w);font-weight:600}
+.mt{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.mtb{padding:6px 14px;background:var(--bg);border:1px solid var(--bd);border-radius:20px;font-size:12px;color:var(--tx2);cursor:pointer;transition:all .2s}
+.mtb.ac{background:var(--ps);border-color:var(--p);color:var(--ph)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--s);color:#000;padding:10px 20px;border-radius:20px;font-size:13px;z-index:999;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.4);animation:fadeOut 2s forwards}
+@keyframes fadeOut{0%,70%{opacity:1}100%{opacity:0}}
+.tip{font-size:11px;color:var(--tx3);padding:10px 14px;background:var(--bg2);border-radius:var(--r);margin-top:10px}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.wday{text-align:center;padding:8px 2px;background:var(--bg);border-radius:6px}
+.wday .wn{font-size:10px;color:var(--tx3)}
+.wday .wact{font-size:10px;margin-top:2px;font-weight:600}
+.wday .wact.str{color:var(--ph)}
+.wday .wact.card{color:var(--s)}
+.wday .wact.rest{color:var(--tx3)}
+.wday.today{border:2px solid var(--p)}
+.act-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--bg);border-radius:8px;margin-bottom:4px}
+.act-name{font-size:13px}
+.act-meta{font-size:10px;color:var(--tx3)}
+.act-link{color:var(--ph);font-size:11px;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="hd">
+  <div class="hs">
+    <div><div class="hst">当前体重</div><div class="hsv" id="hw">--<small>kg</small></div></div>
+    <div><div class="hst">已减</div><div class="hsv" id="hl">--<small>kg</small></div></div>
+    <div><div class="hst">还需减</div><div class="hsv" id="hr">--<small>kg</small></div></div>
+  </div>
+</div>
+
+<div class="tb" id="tabs">
+  <button class="ti ac" data-tab="dash"><span class="em">📊</span>总览</button>
+  <button class="ti" data-tab="train"><span class="em">🏋️</span>训练</button>
+  <button class="ti" data-tab="video"><span class="em">📺</span>视频</button>
+  <button class="ti" data-tab="diet"><span class="em">🍽️</span>饮食</button>
+  <button class="ti" data-tab="recipe"><span class="em">🍳</span>食谱</button>
+  <button class="ti" data-tab="weight"><span class="em">⚖️</span>体重</button>
+</div>
+
+<!-- Dashboard -->
+<div class="pg ac" id="p-dash">
+  <div class="g2">
+    <div class="sc"><div class="scv" id="dw">--<small>kg</small></div><div class="scl">当前体重</div></div>
+    <div class="sc"><div class="scv" id="dl">--<small>kg</small></div><div class="scl">已减重量</div></div>
+    <div class="sc"><div class="scv" id="dp">0%</div><div class="scl">完成进度</div></div>
+    <div class="sc"><div class="scv" id="dc">--<small>kcal</small></div><div class="scl">今日摄入</div></div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="ch"><div class="ctt">📈 减重进度</div></div>
+    <div class="g3">
+      <div class="sc"><div class="scv" id="pbw">--<small>kg</small></div><div class="scl">当前</div></div>
+      <div class="sc"><div class="scv" style="color:var(--p)">105<small>kg</small></div><div class="scl">起始</div></div>
+      <div class="sc"><div class="scv" style="color:var(--s)">95<small>kg</small></div><div class="scl">目标</div></div>
+    </div>
+    <div class="pgbar"><div class="pgfill" id="pff" style="width:0%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3);margin-top:4px">
+      <span id="plo">-- kg</span><span>已减</span><span id="pre">-- kg</span><span>剩余</span>
+    </div>
+    <div style="margin-top:10px;font-size:12px;color:var(--tx2);text-align:center">
+      按当前速度预计 <b id="ew" style="color:var(--s)">-- 周</b> 达成目标
+    </div>
+  </div>
+  <div class="card"><div class="ch"><div class="ctt">📅 本周训练</div></div><div class="week-grid" id="dws"></div></div>
+</div>
+
+<!-- Training -->
+<div class="pg" id="p-train">
+  <div class="card"><div class="ch"><div class="ctt">📅 本周训练计划</div></div><div class="week-grid" id="fws"></div></div>
+  <div class="card"><div class="ch"><div class="ctt">📋 今日训练</div></div><div id="wdet"></div></div>
+</div>
+
+<!-- Videos -->
+<div class="pg" id="p-video">
+  <div class="vf" id="vf">
+    <button class="fb active" data-vf="all">全部</button>
+    <button class="fb" data-vf="strength">💪 力量</button>
+    <button class="fb" data-vf="cardio">🏃 有氧</button>
+    <button class="fb" data-vf="hiit">🔥 HIIT</button>
+    <button class="fb" data-vf="core">🎯 核心</button>
+    <button class="fb" data-vf="stretch">🧘 拉伸</button>
+  </div>
+  <div id="vg"></div>
+</div>
+
+<!-- Diet -->
+<div class="pg" id="p-diet">
+  <div class="card">
+    <div class="ch"><div class="ctt">🍽️ 今日饮食</div><div style="font-size:13px;color:var(--w)">目标: <span id="ddl">1800</span> kcal</div></div>
+    <div class="g2">
+      <div class="sc"><div class="scv" id="cr">--<small>kcal</small></div><div class="scl">已摄入</div></div>
+      <div class="sc"><div class="scv" id="rv">--<small>kcal</small></div><div class="scl">剩余</div></div>
+    </div>
+    <div class="g3" style="margin-top:10px">
+      <div class="sc"><div class="scv" id="vb">--<small>kcal</small></div><div class="scl">早餐</div></div>
+      <div class="sc"><div class="scv" id="vl">--<small>kcal</small></div><div class="scl">午餐</div></div>
+      <div class="sc"><div class="scv" id="vd">--<small>kcal</small></div><div class="scl">晚餐</div></div>
+    </div>
+    <div style="margin-top:8px;font-size:10px;color:var(--tx3)">
+      <span id="bs2">早餐 0</span> · <span id="vs">加餐 0</span> · <span id="bd2">晚餐 0</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ctt">➕ 添加餐食</div><div>每日目标 <select id="did" class="fi" style="width:auto;display:inline;padding:4px 8px">
+      <option value="1800">1800 kcal</option><option value="1600">1600 kcal</option><option value="2000">2000 kcal</option><option value="1500">1500 kcal</option>
+    </select></div></div>
+    <div class="mt" id="mt">
+      <button class="mtb ac" data-mt="breakfast">🌅 早餐</button>
+      <button class="mtb" data-mt="lunch">☀️ 午餐</button>
+      <button class="mtb" data-mt="dinner">🌙 晚餐</button>
+      <button class="mtb" data-mt="snack">🍪 加餐</button>
+    </div>
+    <div class="fg"><label class="fl">食物名称</label><input class="fi" id="fn" placeholder="如：鸡胸肉沙拉"></div>
+    <div class="g2">
+      <div class="fg"><label class="fl">热量 (kcal)</label><input class="fi" id="fc" type="number" placeholder="如：350" value="350"></div>
+      <div class="fg"><label class="fl">蛋白质 (g)</label><input class="fi" id="fp" type="number" placeholder="如：35" value="35"></div>
+    </div>
+    <button class="btn" onclick="addMeal()" style="width:100%">✅ 记录</button>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ctt">📋 今日记录</div><div style="font-size:11px;color:var(--tx3)">总量: <span id="dld">1800</span> kcal</div></div>
+    <div id="mll"></div>
+  </div>
+</div>
+
+<!-- Recipes -->
+<div class="pg" id="p-recipe">
+  <div class="card">
+    <div class="ch"><div class="ctt">🍳 减脂食谱库</div><div class="cs">高蛋白低脂 · 虾/鸡腿/鸡胸为主 · 好吃不怕胖</div></div>
+    <div class="vf" id="rf">
+      <button class="fb active" data-rf="all">全部</button>
+      <button class="fb" data-rf="chicken">🍗 鸡胸</button>
+      <button class="fb" data-rf="shrimp">🦐 虾</button>
+      <button class="fb" data-rf="leg">🍗 鸡腿</button>
+      <button class="fb" data-rf="video">📺 有视频</button>
+    </div>
+    <div class="rg" id="rg"></div>
+  </div>
+  <div class="tip"><strong>💡 饮食小贴士：</strong>蛋白质按体重 1.5-2g/kg（你约需160-200g/天）。烹饪优选<strong>蒸、煮、烤、少油煎</strong>，避免油炸。主食换糙米、红薯、燕麦等粗粮。</div>
+</div>
+
+<!-- Weight -->
+<div class="pg" id="p-weight">
+  <div class="card">
+    <div class="ch"><div class="ctt">⚖️ 记录体重</div><div class="cs">建议每天早晨空腹称重</div></div>
+    <div class="fg"><label class="fl">日期</label><input type="date" class="fi" id="wd2"></div>
+    <div class="fg"><label class="fl">体重 (kg)</label><input type="number" class="fi" id="wv" placeholder="如：104.5" step="0.1"></div>
+    <button class="btn" onclick="addWeight()" style="width:100%">💾 保存</button>
+  </div>
+  <div class="wc-box">
+    <div class="wc-title">📊 体重趋势</div>
+    <div class="wc-bars" id="wc-bars">
+      <div style="text-align:center;width:100%;color:var(--tx3);padding-top:50px;font-size:13px">暂无体重数据<br>请先记录体重</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--tx3);margin-top:4px">
+      <span style="color:var(--d)">起始 105kg</span><span style="color:var(--s)">目标 95kg</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ctt">📋 历史记录</div></div>
+    <div id="wl"><div style="text-align:center;padding:20px;color:var(--tx3);font-size:13px">暂无体重记录<br>点击上方「记录体重」开始打卡</div></div>
+  </div>
+</div>
+
+<div id="toast" class="toast" style="display:none"></div>
+
+<script>
+// ===== DATA =====
+var videos=[{id:'BV1VTddBHEDE',title:'帕梅拉 30分钟经典燃脂三部曲｜暴汗内脏燃脂',author:'帕梅拉 Pamela Reif',dur:'30:00',cat:'strength',level:'进阶',plays:'918万'},{id:'BV1MLgk6bEwY',title:'15分钟全身训练｜新手友好无需器械',author:'MIZI',dur:'15:00',cat:'strength',level:'入门',plays:'180万'},{id:'BV19a3M6kExJ',title:'35分钟全身塑形普拉提｜紧致线条提升力量',author:'MIZI',dur:'35:00',cat:'strength',level:'进阶',plays:'95万'},{id:'BV1sA411Q7R3',title:'30分钟全程站立有氧燃脂操｜无跳跃膝友好',author:'周六野 Zoey',dur:'30:00',cat:'cardio',level:'入门',plays:'820万'},{id:'BV1iEuqzMEpg',title:'60分钟全身有氧燃脂HIIT锻炼｜无需器械',author:'FitnessBlender',dur:'60:00',cat:'cardio',level:'进阶',plays:'320万'},{id:'BV1br4y1A7Zr',title:'帕梅拉 10分钟最佳HIIT训练｜高光合集',author:'帕梅拉 Pamela Reif',dur:'10:00',cat:'hiit',level:'进阶',plays:'560万'},{id:'BV1ZtVp6bE4V',title:'40分钟高强度间歇有氧HIIT｜燃脂800卡',author:'跟练吧',dur:'40:00',cat:'hiit',level:'挑战',plays:'150万'},{id:'BV1VTddBHEDE',title:'帕梅拉 10分钟腹部训练｜马甲线打造',author:'帕梅拉 Pamela Reif',dur:'10:00',cat:'core',level:'进阶',plays:'420万'},{id:'BV19a3M6kExJ',title:'5分钟下腹燃脂训练｜高强度核心无休息',author:'Sixpack',dur:'05:00',cat:'core',level:'挑战',plays:'280万'},{id:'BV1sA411Q7R3',title:'10分钟全身拉伸放松｜运动后必做',author:'周六野 Zoey',dur:'10:00',cat:'stretch',level:'入门',plays:'450万'},{id:'BV19a3M6kExJ',title:'15分钟瑜伽拉伸｜舒缓放松改善睡眠',author:'YogaWithAdriene',dur:'15:00',cat:'stretch',level:'入门',plays:'190万'},{id:'BV1DLgv6LEUB',title:'减脂期鸡胸肉最香做法！盐葱鸡胸肉',author:'美食UP',dur:'05:00',cat:'cardio',level:'入门',plays:'120万'}];
+var recipes=[
+{name:'🦐 冰镇柠檬虾',cat:['shrimp','low','high-protein'],cal:155,protein:28,fat:3,time:'15分钟',diff:'超简单',ing:'鲜虾 300g、柠檬 半个、姜片 3片、料酒 1勺\n酱汁：鱼露 1勺、柠檬汁 2勺、蒜末、小米辣、香菜',steps:['虾去壳去虾线，加姜片料酒焯水 1 分钟','立刻投入冰水浸泡 5 分钟','柠檬汁+鱼露+蒜末+小米辣调成泰式酱汁','虾仁沥干摆盘，淋上酱汁','撒香菜碎，冷藏 10 分钟更入味'],tip:'焯水放根葱去腥，冰镇让虾肉紧致弹牙',video:'https://www.douyin.com/video/7647466375371921582'},
+{name:'🦐 三色炒虾仁',cat:['shrimp','low','high-protein'],cal:185,protein:24,fat:5,time:'12分钟',diff:'简单',ing:'虾仁 200g、胡萝卜 半根、黄瓜 半根、玉米粒 50g、蒜末、生抽 1勺、料酒、盐',steps:['胡萝卜黄瓜切丁，虾仁加料酒盐腌 10 分钟','少油爆香蒜末，下虾仁翻炒至变色盛出','胡萝卜玉米粒下锅翻炒 2 分钟','加入黄瓜丁和虾仁快速翻炒','加生抽盐调味，炒匀出锅'],tip:'色彩丰富食欲大增，一餐蛋白质蔬菜全搞定',video:'https://www.douyin.com/video/7566599687043337509'},
+{name:'🦐 虾仁滑蛋',cat:['shrimp','low','high-protein'],cal:210,protein:26,fat:8,time:'10分钟',diff:'简单',ing:'虾仁 150g、鸡蛋 3个、牛奶 1勺、葱花、盐、料酒、淀粉少许',steps:['虾仁加料酒盐淀粉腌 5 分钟','鸡蛋打散加牛奶盐搅匀','少油滑炒虾仁至变色盛出','锅中小火倒蛋液，半凝固时放回虾仁','轻轻推炒至嫩滑，撒葱花出锅'],tip:'蛋液中加牛奶更嫩滑，火一定要小',video:'https://www.douyin.com/video/7625946203197776738'},
+{name:'🦐 西兰花炒虾仁',cat:['shrimp','low','high-protein'],cal:175,protein:25,fat:5,time:'15分钟',diff:'简单',ing:'虾仁 200g、西兰花 1颗、蒜末、生抽、料酒、盐、黑胡椒',steps:['虾仁加料酒盐腌 10 分钟','西兰花掰小朵焯水 1 分钟捞出','少油爆香蒜末','下虾仁炒至变色','加入西兰花生抽快速翻炒均匀'],tip:'经典减脂搭配，高蛋白+高纤维',video:'https://www.douyin.com/video/7629319125576732586'},
+{name:'🦐 番茄虾滑汤',cat:['shrimp','low','high-protein'],cal:195,protein:22,fat:6,time:'20分钟',diff:'中等',ing:'虾仁 200g、番茄 2个、蛋清 1个、淀粉 1勺、姜末、盐、白胡椒、葱花',steps:['虾仁剁成泥，加蛋清淀粉姜末盐搅打上劲','番茄切丁炒出沙，加水煮开','用勺子挖虾滑入锅','煮至虾滑浮起变红','加盐白胡椒调味，撒葱花'],tip:'虾滑Q弹，番茄汤底酸甜开胃，配糙米饭绝了',video:'https://www.douyin.com/video/7642254389092849381'},
+{name:'🦐 蒜蓉粉丝蒸虾',cat:['shrimp','high-protein'],cal:230,protein:26,fat:7,time:'20分钟',diff:'简单',ing:'大虾 8只、粉丝 1把、蒜末 3勺、生抽 2勺、蚝油 1勺、葱花、橄榄油少许',steps:['粉丝温水泡软铺盘底','虾开背去虾线摆粉丝上','蒜末少油炒香加生抽蚝油调汁','蒜蓉汁浇在虾上','水开上锅蒸 8 分钟，撒葱花淋热油'],tip:'蒸制保留鲜味，粉丝吸满汤汁超满足',video:'https://www.douyin.com/video/7624872663768869733'},
+{name:'🦐 黄瓜拌虾仁',cat:['shrimp','low','high-protein'],cal:140,protein:22,fat:3,time:'10分钟',diff:'超简单',ing:'虾仁 200g、黄瓜 1根、蒜末、生抽 2勺、香醋 1勺、小米辣、香油几滴',steps:['虾仁煮熟过冰水','黄瓜拍碎切段','调汁：生抽+醋+蒜末+小米辣+香油','所有材料拌匀','冷藏 5 分钟更爽口'],tip:'夏天消暑神器，零油烟零负担',video:'https://www.douyin.com/video/7549878023512804642'},
+{name:'🦐 口蘑虾仁蒸蛋',cat:['shrimp','low','high-protein'],cal:185,protein:24,fat:7,time:'15分钟',diff:'简单',ing:'鸡蛋 2个、虾仁 100g、口蘑 3个、温水、盐、生抽、葱花',steps:['鸡蛋加 1.5 倍温水和盐打匀过筛','口蘑切片，虾仁加料酒腌 5 分钟','蛋液盖保鲜膜扎孔蒸 8 分钟','摆上口蘑和虾仁继续蒸 5 分钟','出锅淋生抽撒葱花'],tip:'蛋羹嫩如布丁，口蘑增鲜不用味精',video:'https://www.douyin.com/video/7656664426062664307'},
+{name:'🍗 香煎鸡胸肉',cat:['chicken','low','high-protein'],cal:200,protein:38,fat:4,time:'15分钟',diff:'简单',ing:'鸡胸肉 1块(200g)、盐、黑胡椒、生抽 1勺、料酒 1勺、蛋清 半个、淀粉少许、柠檬汁',steps:['鸡胸肉逆纹切厚片','加盐、黑胡椒、生抽、料酒、蛋清、淀粉抓匀腌 15 分钟','锅底刷薄油，小火慢煎','两面各煎 3-4 分钟至金黄','挤柠檬汁，静置 2 分钟再切'],tip:'蛋清+淀粉是关键，锁住水分不柴',video:'https://www.douyin.com/video/7490749330979163404'},
+{name:'🍗 凉拌手撕鸡丝',cat:['chicken','low','high-protein'],cal:210,protein:35,fat:6,time:'20分钟',diff:'简单',ing:'鸡胸肉 1块、黄瓜 半根、胡萝卜 半根、蒜末、生抽 2勺、香醋 1勺、小米辣、香菜、香油少许',steps:['鸡胸冷水下锅，加姜片料酒煮熟','捞出泡冰水后撕成细丝','黄瓜胡萝卜切丝','调汁：生抽+醋+蒜末+小米辣+香油','所有材料拌匀撒香菜'],tip:'酸辣开胃，做一次冷藏可吃两顿',video:'https://www.douyin.com/video/7649207057812164453'},
+{name:'🍗 番茄焖鸡胸',cat:['chicken','high-protein'],cal:240,protein:34,fat:5,time:'20分钟',diff:'简单',ing:'鸡胸肉 150g、番茄 2个、蒜末、盐、生抽 1勺、黑胡椒',steps:['鸡胸肉切块加盐黑胡椒腌 10 分钟','番茄切丁炒出沙，加半碗水煮开','放入鸡胸肉块，小火焖 8 分钟','加生抽调味，大火收汁','汤汁浓郁时出锅'],tip:'番茄自带酸甜，拌杂粮饭超下饭',video:'https://www.douyin.com/video/7648543189456714451'},
+{name:'🍗 青椒炒鸡丁',cat:['chicken','low','high-protein'],cal:195,protein:32,fat:5,time:'12分钟',diff:'超简单',ing:'鸡胸肉 150g、青椒 2个、蒜末、生抽 1勺、料酒、盐、黑胡椒',steps:['鸡胸肉切小丁加料酒盐腌 10 分钟','青椒切块','少油爆香蒜末，下鸡丁滑炒至变白','加青椒大火快炒 1 分钟','加生抽黑胡椒翻匀出锅'],tip:'全程大火快炒，青椒脆爽鸡肉嫩',video:'https://www.douyin.com/video/7661905584345840366'},
+{name:'🍗 水煮鸡胸肉片',cat:['chicken','low','high-protein'],cal:180,protein:36,fat:3,time:'10分钟',diff:'超简单',ing:'鸡胸肉 200g、姜片、料酒、盐\n蘸料：生抽 2勺、香醋 1勺、蒜末、小米辣',steps:['鸡胸肉逆纹切薄片','加盐、料酒、蛋清、淀粉抓匀腌 10 分钟','水烧开放姜片','下肉片烫 1-2 分钟至变白捞出','蘸料汁食用'],tip:'几乎零油脂，适合严格减脂期',video:'https://www.douyin.com/video/7637367491102564991'},
+{name:'🍗 蒜香孜然鸡胸',cat:['chicken','low','high-protein'],cal:215,protein:37,fat:5,time:'15分钟',diff:'简单',ing:'鸡胸肉 200g、蒜末 2勺、孜然粉 1勺、辣椒粉、生抽 1勺、料酒、盐',steps:['鸡胸肉切条加所有调料腌 20 分钟','平底锅刷薄油，小火煎','煎至两面金黄焦香','撒孜然粉辣椒粉翻匀','像烤肉一样解馋'],tip:'减脂期的"烧烤"替代品，超解馋',video:'https://www.douyin.com/video/7610713203022056738'},
+{name:'🍗 葱油鸡胸肉',cat:['chicken','low','high-protein'],cal:225,protein:36,fat:7,time:'15分钟',diff:'简单',ing:'鸡胸肉 200g、香葱 1把、姜片、生抽 2勺、料酒、盐、花椒少许',steps:['鸡胸冷水加姜片料酒煮 8 分钟','捞出过冰水后切片','香葱切段小火炸至焦黄','葱油过滤加生抽调汁','浇在鸡片上即可'],tip:'葱油只用 1 小勺提香，香而不腻',video:'https://www.douyin.com/video/7559466796177411385'},
+{name:'🍗 咖喱鸡胸糙米饭',cat:['chicken','high-protein'],cal:360,protein:30,fat:9,time:'25分钟',diff:'中等',ing:'鸡胸肉 150g、糙米 50g、洋葱 半个、胡萝卜 半根、咖喱粉 1勺、椰浆 1勺',steps:['糙米提前泡 2 小时煮熟','鸡胸肉切丁炒变色盛出','洋葱胡萝卜炒软加咖喱粉','加少许水和椰浆煮开','放回鸡肉收汁搭配糙米饭'],tip:'椰浆只放 1 勺提味，热量可控',video:'https://www.douyin.com/video/7658957797824398335'},
+{name:'🍗 照烧鸡腿排',cat:['leg','high-protein'],cal:285,protein:30,fat:12,time:'20分钟',diff:'简单',ing:'去骨鸡腿 1块(200g)、生抽 2勺、蚝油 1勺、零卡糖 1勺、料酒、姜片、白芝麻',steps:['鸡腿肉加姜片料酒腌 15 分钟','调照烧汁：生抽+蚝油+零卡糖+2勺水','鸡皮朝下小火煎至金黄出油','翻面再煎 3 分钟','倒入照烧汁收浓，切块撒芝麻'],tip:'零卡糖替代白糖，照烧不减风味',video:'https://www.douyin.com/video/7294635486000303372'},
+{name:'🍗 花椒烤鸡腿',cat:['leg','high-protein'],cal:270,protein:29,fat:13,time:'30分钟',diff:'简单',ing:'鸡全腿 1个、花椒 1勺、盐、生抽 1勺、蚝油 1勺、老抽少许、姜片',steps:['鸡腿擦干划刀，加所有调料抓匀','腌制 30 分钟以上','空气炸锅 180℃ 烤 15 分钟','翻面再烤 10 分钟','切开配蔬菜'],tip:'花椒麻香独特，空气炸锅逼出多余油脂',video:'https://www.douyin.com/video/7617783104819760410'},
+{name:'🍗 干煎脆皮鸡腿',cat:['leg','high-protein'],cal:260,protein:28,fat:14,time:'25分钟',diff:'中等',ing:'鸡全腿 1个、盐、蒜粒、黑胡椒',steps:['鸡腿底部剪开擦干水分','按每200g肉2g盐抹匀，冷藏腌一晚','平底锅不放油，鸡皮朝下','小火慢煎 15 分钟至鸡皮焦脆','翻面煎 5 分钟，放蒜粒增香'],tip:'不放油，靠鸡皮自身油脂煎脆',video:'https://www.douyin.com/video/7640853474510700003'},
+{name:'🍗 电饭煲焖鸡腿',cat:['leg','high-protein'],cal:255,protein:27,fat:11,time:'40分钟',diff:'超简单',ing:'鸡腿 2个、生抽 2勺、蚝油 1勺、老抽少许、胡椒粉、姜片、葱段',steps:['鸡腿去多余油脂加调料腌 20 分钟','电饭煲底铺葱姜','放入鸡腿和腌料，按煮饭键','中途翻面一次','跳闸后搭配焯水蔬菜'],tip:'完全不用看火，懒人减脂必备',video:'https://www.douyin.com/video/7650478063645619702'},
+{name:'🍗 沙县卤鸡腿',cat:['leg','high-protein'],cal:245,protein:27,fat:10,time:'35分钟',diff:'中等',ing:'鸡腿 3个、八角 2颗、桂皮 1段、香叶 2片、生抽 3勺、老抽 1勺、料酒、姜片、冰糖少许',steps:['鸡腿划刀冷水下锅焯去血水','锅中加水放所有香料调料','放入鸡腿大火烧开转小火','卤 25 分钟关火','浸泡 10 分钟更入味'],tip:'一次卤一锅，冷藏可吃 3 天',video:'https://www.douyin.com/video/7653485804920220084'},
+{name:'🍗 葱烧鸡腿肉',cat:['leg','high-protein'],cal:275,protein:29,fat:13,time:'20分钟',diff:'简单',ing:'去骨鸡腿 200g、大葱 1根、生抽 2勺、料酒、盐、黑胡椒',steps:['鸡腿切块加料酒盐腌 10 分钟','大葱切段','少油鸡皮朝下煎至金黄','加入葱段翻炒出香','加生抽黑胡椒炒匀'],tip:'大葱自带甜味，少放调料也好吃',video:'https://www.douyin.com/video/7656018639522434313'},
+{name:'🍗 蒜香烤鸡腿',cat:['leg','high-protein'],cal:280,protein:28,fat:15,time:'30分钟',diff:'简单',ing:'鸡腿 2个、蒜末 3勺、生抽 2勺、蚝油 1勺、黑胡椒、迷迭香(可选)',steps:['鸡腿划刀加所有调料腌 30 分钟','烤箱/空气炸锅 200℃ 预热','烤 18 分钟翻面','继续烤 10 分钟至表面焦黄','出炉静置 3 分钟'],tip:'蒜香浓郁，烤制逼出油脂更健康',video:'https://www.douyin.com/video/7662297374098643611'},
+{name:'🍗 凉拌鸡腿虾仁',cat:['leg','shrimp','high-protein'],cal:250,protein:34,fat:9,time:'20分钟',diff:'简单',ing:'鸡腿 1个、虾仁 100g、洋葱、香菜、生抽 2勺、香醋 1勺、蒜末、小米辣、柠檬汁',steps:['鸡腿煮熟过冰水撕成条','虾仁焯水 1 分钟','洋葱切丝泡冰水去辣','调酸辣汁：生抽+醋+蒜末+小米辣+柠檬汁','所有材料拌匀'],tip:'鸡腿+虾仁双蛋白，酸辣开胃超满足',video:'https://www.douyin.com/video/7549878023512804642'}
+]
+;
+var rcl={chicken:'鸡胸',shrimp:'虾',leg:'鸡腿',low:'低卡','high-protein':'高蛋白'};
+var rcc={chicken:'rtc',shrimp:'rts',leg:'rtl',low:'rtlo','high-protein':'rth'};
+
+// ===== STATE =====
+var S=JSON.parse(localStorage.getItem('wl_state')||'{"ws":[],"meals":{},"sd":"1800"}');
+function save(){localStorage.setItem('wl_state',JSON.stringify(S))}
+
+// ===== HELPERS =====
+function todayKey(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function cw(){return S.ws.length?S.ws.slice().sort(function(a,b){return a.d.localeCompare(b.d)})[S.ws.length-1].w:105}
+function getMeals(d){return S.meals[d]||[]}
+
+// ===== TABS =====
+document.getElementById('tabs').addEventListener('click',function(e){
+  var t=e.target.closest('.ti');if(!t)return;
+  document.querySelectorAll('.ti').forEach(function(x){x.classList.remove('ac')});
+  t.classList.add('ac');
+  document.querySelectorAll('.pg').forEach(function(x){x.classList.remove('ac')});
+  var pg=document.getElementById('p-'+t.dataset.tab);
+  if(pg)pg.classList.add('ac');
+  // Re-render on tab switch
+  if(t.dataset.tab==='dash')renderDash();
+  if(t.dataset.tab==='weight')renderWeight();
+  if(t.dataset.tab==='diet')renderDiet();
+});
+
+// ===== HEADER =====
+function updateHeader(){var cur=cw(),lost=105-cur;document.getElementById('hw').innerHTML=cur.toFixed(1)+'<small>kg</small>';document.getElementById('hl').innerHTML=lost.toFixed(1)+'<small>kg</small>';document.getElementById('hr').innerHTML=(cur-95).toFixed(1)+'<small>kg</small>'}
+
+// ===== TOAST =====
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.style.display='block';t.style.animation='none';t.offsetHeight;t.style.animation='fadeOut 2s forwards';setTimeout(function(){t.style.display='none'},2000)}
+
+// ===== DASHBOARD =====
+function renderDash(){
+  var cur=cw(),lost=105-cur,rem=cur-95,pct=Math.max(0,Math.min(100,(lost/10)*100));
+  document.getElementById('dw').innerHTML=cur.toFixed(1)+'<small>kg</small>';
+  document.getElementById('dl').innerHTML=lost.toFixed(1)+'<small>kg</small>';
+  document.getElementById('dp').textContent=pct.toFixed(1)+'%';
+  if(S.ws.length>=2){var s2=S.ws.slice().sort(function(a,b){return a.d.localeCompare(b.d)}),la=s2[s2.length-1].w,pr=s2[s2.length-2].w,dif=la-pr,el=document.getElementById('dt');if(el){if(dif<0){el.className='st up';el.textContent='↓ '+Math.abs(dif).toFixed(1)+'kg'}else if(dif>0){el.className='st down';el.textContent='↑ +'+dif.toFixed(1)+'kg'}else{el.className='st ne';el.textContent='→ 持平'}}}
+  var tm=getMeals(todayKey()),tc=tm.reduce(function(s,m){return s+m.fc},0);
+  document.getElementById('dc').innerHTML=tc+'<small>kcal</small>';
+  document.getElementById('pbw').innerHTML=cur.toFixed(1)+'<small>kg</small>';
+  var ppEl=document.getElementById('pp');if(ppEl)ppEl.textContent=pct.toFixed(1)+'%';
+  var pffEl=document.getElementById('pff');if(pffEl)pffEl.style.width=pct+'%';
+  document.getElementById('plo').textContent=lost.toFixed(1)+' kg';
+  document.getElementById('pre').textContent=rem.toFixed(1)+' kg';
+  document.getElementById('ew').textContent=Math.ceil(rem/0.75)+' 周';
+  var tk=todayKey();renderWeek('dws',tk);
+}
+
+function renderWeek(elId,tk){
+  var el=document.getElementById(elId);if(!el)return;
+  var d=new Date(),day=d.getDay()||7;day=day-1;
+  var mon=new Date(d);mon.setDate(d.getDate()-day);
+  var plan=['strength','cardio','strength','rest','cardio','strength','rest'];
+  var labels=['一','二','三','四','五','六','日'];
+  var icons={strength:'🏋️',cardio:'🏃',rest:'😴'};
+  var cls={strength:'str',cardio:'card',rest:'rest'};
+  var h='';
+  for(var i=0;i<7;i++){var dt=new Date(mon);dt.setDate(mon.getDate()+i);var k=dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');var today=k===tk;h+='<div class="wday'+(today?' today':'')+'"><div class="wn">'+labels[i]+'</div><div class="wact '+cls[plan[i]]+'">'+icons[plan[i]]+' '+({'strength':'力量','cardio':'有氧','rest':'休息'}[plan[i]])+'</div></div>'}
+  el.innerHTML=h;
+}
+
+function showWD(tk){
+  var plan=['strength','cardio','strength','rest','cardio','strength','rest'];
+  var d=new Date(),day=d.getDay()||7;day=day-1;
+  var todayPlan=plan[day];
+  var el=document.getElementById('wdet');if(!el)return;
+  var rel=videos.filter(function(v){return v.cat===todayPlan||v.cat==='strength'});
+  if(todayPlan==='rest'){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--tx3)">😴 今天是休息日<br>好好恢复，可以做拉伸</div>';return}
+  var h='<div style="font-size:12px;color:var(--tx2);margin-bottom:8px">推荐训练：</div>';
+  rel.slice(0,3).forEach(function(v){h+='<div class="act-item"><div><div class="act-name">'+v.title+'</div><div class="act-meta">⏱ '+v.dur+' · '+v.level+' · '+v.plays+'播放</div></div><a class="act-link" href="https://www.bilibili.com/video/'+v.id+'" target="_blank">▶ B站播放</a></div>'});
+  el.innerHTML=h;
+}
+
+// ===== VIDEOS =====
+function renderVideos(f){
+  f=f||'all';
+  var list=f==='all'?videos:videos.filter(function(v){return v.cat===f});
+  var h='';
+  list.forEach(function(v){
+    h+='<div class="vc"><div class="vi"><div class="vthumb">▶</div><div class="vinfo"><div class="vt">'+v.title+'</div><div class="va">'+v.author+' · ⏱ '+v.dur+' · '+v.plays+'播放</div><div class="vm"><span class="vtg '+v.cat+'">'+({'strength':'💪 力量','cardio':'🏃 有氧','hiit':'🔥 HIIT','core':'🎯 核心','stretch':'🧘 拉伸'}[v.cat]||v.cat)+'</span><span class="vtg" style="background:var(--bg);color:var(--tx2)">'+v.level+'</span></div></div></div><div style="padding:0 12px 12px"><a class="btn btn-sm" href="https://www.bilibili.com/video/'+v.id+'" target="_blank">▶ 去B站观看</a></div></div>';
+  });
+  document.getElementById('vg').innerHTML=h;
+}
+
+// ===== DIET =====
+function renderDiet(){
+  var d=S.sd;document.getElementById('did').value=d;document.getElementById('ddl').textContent=d;document.getElementById('dld').textContent=d;
+  document.querySelectorAll('#mt .mtb').forEach(function(t){t.classList.remove('ac')});
+  document.querySelector('#mt .mtb[data-mt="breakfast"]').classList.add('ac');
+  var tk=todayKey(),meals=getMeals(tk),total=meals.reduce(function(s,m){return s+m.fc},0);
+  var bfast=meals.filter(function(m){return m.mt==='breakfast'}).reduce(function(s,m){return s+m.fc},0);
+  var lunch=meals.filter(function(m){return m.mt==='lunch'}).reduce(function(s,m){return s+m.fc},0);
+  var dinner=meals.filter(function(m){return m.mt==='dinner'}).reduce(function(s,m){return s+m.fc},0);
+  var snack=meals.filter(function(m){return m.mt==='snack'}).reduce(function(s,m){return s+m.fc},0);
+  document.getElementById('cr').innerHTML=total+'<small>kcal</small>';
+  document.getElementById('rv').innerHTML=Math.max(0,d-total)+'<small>kcal</small>';
+  document.getElementById('vb').innerHTML=bfast+'<small>kcal</small>';
+  document.getElementById('vl').innerHTML=lunch+'<small>kcal</small>';
+  document.getElementById('vd').innerHTML=dinner+'<small>kcal</small>';
+  document.getElementById('bs2').textContent='早餐 '+bfast;document.getElementById('vs').textContent='加餐 '+snack;document.getElementById('bd2').textContent='晚餐 '+dinner;
+  var h='';meals.forEach(function(m){h+='<div class="dl-item"><span class="dl-name">'+({'breakfast':'🌅','lunch':'☀️','dinner':'🌙','snack':'🍪'}[m.mt]||'')+' '+m.fn+'</span><span class="dl-cals">'+m.fc+' kcal · '+m.fp+'g蛋白</span></div>'});
+  if(!h)h='<div style="text-align:center;padding:16px;color:var(--tx3);font-size:12px">暂无记录，开始添加吧</div>';
+  document.getElementById('mll').innerHTML=h;
+}
+
+function addMeal(){
+  var fn=document.getElementById('fn').value.trim(),fc=parseInt(document.getElementById('fc').value)||0,fp=parseInt(document.getElementById('fp').value)||0;
+  if(!fn)return showToast('请输入食物名称');
+  var mt='breakfast';document.querySelectorAll('#mt .mtb.ac').forEach(function(b){mt=b.dataset.mt});
+  var tk=todayKey();if(!S.meals[tk])S.meals[tk]=[];
+  S.meals[tk].push({fn:fn,fc:fc,fp:fp,mt:mt});
+  save();renderDiet();updateHeader();renderDash();
+  document.getElementById('fn').value='';document.getElementById('fc').value='350';document.getElementById('fp').value='35';
+  showToast('✅ 已记录');
+}
+
+// ===== RECIPES =====
+function renderRecipes(f){
+  f=f||'all';
+  var list=f==='all'?recipes:(f==='video'?recipes.filter(function(r){return r.video}):recipes.filter(function(r){return r.cat.indexOf(f)>=0}));
+  var h='';
+  list.forEach(function(r){
+    h+='<div class="rc"><div class="rh"><div class="rn">'+r.name+'</div><div class="rtg">';
+    r.cat.forEach(function(c){h+='<span class="rt '+(rcc[c]||'rtlo')+'">'+(rcl[c]||c)+'</span>'});
+    h+='<span class="rt" style="background:var(--bg);color:var(--tx2)">⏱ '+r.time+'</span><span class="rt" style="background:var(--bg);color:var(--tx2)">'+r.diff+'</span></div></div><div class="rb"><div class="rstats"><div class="rs2"><div class="rsv" style="color:var(--w)">'+r.cal+'</div><div class="rsl">kcal</div></div><div class="rs2"><div class="rsv" style="color:var(--p)">'+r.protein+'g</div><div class="rsl">蛋白质</div></div><div class="rs2"><div class="rsv" style="color:var(--pk)">'+r.fat+'g</div><div class="rsl">脂肪</div></div></div><div class="rst">🛒 食材</div><div class="ri">'+r.ing.replace(/\n/g,'<br>')+'</div><div class="rst">👨‍🍳 做法</div><ol class="rsteps">';
+    r.steps.forEach(function(s){h+='<li>'+s+'</li>'});
+    h+='</ol></div><div class="rf"><div class="rtip">💡 '+r.tip+'</div>'+(r.video?'<a class="rvb" href="'+r.video+'" target="_blank">📺 抖音看视频</a>':'')+'</div></div>';
+  });
+  document.getElementById('rg').innerHTML=h;
+}
+
+// ===== WEIGHT =====
+function renderWeight(){
+  var ws=S.ws.slice().sort(function(a,b){return a.d.localeCompare(b.d)});
+  // Bar chart
+  var bars=document.getElementById('wc-bars');
+  if(!bars)return;
+  if(ws.length===0){bars.innerHTML='<div style="text-align:center;width:100%;color:var(--tx3);padding-top:50px;font-size:13px">暂无体重数据<br>请先记录体重</div>';}
+  else{var minW=Math.min(90,ws[0].w-5),maxW=Math.max(108,ws[ws.length-1].w+3);var h='<div class="wc-line goal" style="bottom:'+((95-minW)/(maxW-minW)*130+20)+'px"></div><div class="wc-line start" style="bottom:'+((105-minW)/(maxW-minW)*130+20)+'px"></div>';ws.forEach(function(w){var ht=Math.max(4,(w.w-minW)/(maxW-minW)*130);h+='<div class="wc-bar-wrap"><div class="wc-bar" style="height:'+ht+'px;'+(w.w>105?'background:linear-gradient(180deg,#ef4444,#f87171)':w.w<=95?'background:linear-gradient(180deg,#10b981,#34d399)':'')+'"></div><div class="wc-date">'+w.d.slice(5)+'</div></div>'});bars.innerHTML=h;}
+  // List
+  var wl=document.getElementById('wl');if(!wl)return;
+  if(ws.length===0){wl.innerHTML='<div style="text-align:center;padding:20px;color:var(--tx3);font-size:13px">暂无体重记录<br>点击上方「记录体重」开始打卡</div>'}
+  else{var prev=null,hl='';ws.reverse().forEach(function(w,i){var cls='ne',delta='';if(prev!==null){var diff=prev.w-w.w;if(diff>0){cls='down';delta=' ↓'+diff.toFixed(1)}else if(diff<0){cls='up';delta=' ↑'+Math.abs(diff).toFixed(1)}}hl+='<div class="wl-item"><span class="wl-date">'+w.d+'</span><span><span class="wl-val '+cls+'">'+w.w.toFixed(1)+' kg</span><span class="wl-delta">'+delta+'</span></span></div>';prev=w});wl.innerHTML=hl;}
+}
+
+function addWeight(){
+  var d=document.getElementById('wd2').value,w=parseFloat(document.getElementById('wv').value);
+  if(!d)return showToast('请选择日期');if(!w||w<30||w>200)return showToast('请输入有效体重');
+  S.ws=S.ws.filter(function(x){return x.d!==d});S.ws.push({d:d,w:w});
+  S.ws.sort(function(a,b){return a.d.localeCompare(b.d)});
+  save();renderWeight();updateHeader();renderDash();
+  document.getElementById('wv').value='';showToast('✅ 体重已记录');
+}
+
+// ===== FILTER BUTTONS =====
+document.addEventListener('click',function(e){
+  var b=e.target.closest('#rf .fb');if(b){document.querySelectorAll('#rf .fb').forEach(function(x){x.classList.remove('active')});b.classList.add('active');renderRecipes(b.dataset.rf)}
+  b=e.target.closest('#vf .fb');if(b){document.querySelectorAll('#vf .fb').forEach(function(x){x.classList.remove('active')});b.classList.add('active');renderVideos(b.dataset.vf)}
+  b=e.target.closest('#mt .mtb');if(b){document.querySelectorAll('#mt .mtb').forEach(function(x){x.classList.remove('ac')});b.classList.add('ac')}
+});
+
+// ===== INIT =====
+(function init(){
+  try{
+  document.getElementById('did').addEventListener('change',function(){S.sd=this.value;save();renderDiet()});
+  var td=new Date();document.getElementById('wd2').value=td.getFullYear()+'-'+String(td.getMonth()+1).padStart(2,'0')+'-'+String(td.getDate()).padStart(2,'0');
+  updateHeader();
+  }catch(e){console.log('init1 error:',e)}
+  try{renderDash()}catch(e){console.log('dash error:',e)}
+  var tk=todayKey();
+  try{renderWeek('fws',tk)}catch(e){console.log('week error:',e)}
+  try{showWD(tk)}catch(e){console.log('wdet error:',e)}
+  try{renderVideos()}catch(e){console.log('videos error:',e)}
+  try{renderRecipes()}catch(e){console.log('recipes error:',e)}
+  try{renderDiet()}catch(e){console.log('diet error:',e)}
+  try{renderWeight()}catch(e){console.log('weight error:',e)}
+})();
+
+// Register Service Worker for PWA
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').then(function(reg){console.log('SW registered:',reg.scope)}).catch(function(err){console.log('SW failed:',err)});
+}
+</script>
+</body>
+</html>
