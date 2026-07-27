@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="减肥工作台">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0f172a">
-<title>减肥工作台 · 105→95 v5</title>
+<title>减肥工作台 · 105→95 v4</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}:root{--bg:#0f172a;--bg2:#1e293b;--bd:#334155;--tx:#f1f5f9;--tx2:#94a3b8;--tx3:#64748b;--p:#6366f1;--ph:#818cf8;--ps:rgba(99,102,241,.15);--s:#10b981;--ss:rgba(16,185,129,.15);--w:#f59e0b;--ws:rgba(245,158,11,.15);--d:#ef4444;--ds:rgba(239,68,68,.15);--i:#06b6d4;--is:rgba(6,182,212,.15);--pk:#ec4899;--pks:rgba(236,72,153,.15);--r:14px;--rs:8px}
 body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;min-height:100vh;-webkit-tap-highlight-color:transparent}
@@ -453,11 +453,13 @@ function updateWP(){
 
 var wc1=null,wc2=null;
 function renderWeightChart(){
+  try{
   var sorted=S.ws.slice().sort(function(a,b){return a.d.localeCompare(b.d)}),labels=sorted.map(function(w){return w.d.slice(5)}),data=sorted.map(function(w){return w.w});
   var cfg={type:'line',data:{labels:labels.length?labels:['今日'],datasets:[{label:'体重 kg',data:data.length?data:[105],borderColor:'#6366f1',backgroundColor:'rgba(99,102,241,.1)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:'#6366f1',borderWidth:3},{label:'目标 95kg',data:data.map(function(){return 95}),borderColor:'#10b981',borderDash:[6,4],fill:false,pointRadius:0,borderWidth:2},{label:'起始 105kg',data:data.map(function(){return 105}),borderColor:'#ef4444',borderDash:[6,4],fill:false,pointRadius:0,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',font:{size:10}}}},scales:{x:{grid:{color:'rgba(51,65,85,.3)'},ticks:{color:'#94a3b8',font:{size:9}}},y:{grid:{color:'rgba(51,65,85,.3)'},ticks:{color:'#94a3b8',font:{size:9},callback:function(v){return v+'kg'}},suggestedMin:90,suggestedMax:108}}}};
   var c1=document.getElementById('wc'),c2=document.getElementById('wcf');
   if(wc1)wc1.destroy();if(wc2)wc2.destroy();
   if(c1)wc1=new Chart(c1,cfg);if(c2)wc2=new Chart(c2,cfg);
+  }catch(e){console.log('chart error:',e)}
 }
 
 // ===== Dashboard =====
@@ -473,10 +475,18 @@ function renderDash(){
 function updateHeader(){var cur=cw(),lost=105-cur;document.getElementById('hw').innerHTML=cur.toFixed(1)+'<small>kg</small>';document.getElementById('hl').innerHTML=lost.toFixed(1)+'<small>kg</small>';document.getElementById('hr').innerHTML=(cur-95).toFixed(1)+'<small>kg</small>';}
 
 // ===== Init =====
-document.getElementById('did').addEventListener('change',function(){S.sd=this.value;save();renderDiet()});
-updateHeader();renderDash();
-var tk=todayKey();renderWeek('fws',tk);showWD(tk);
-renderVideos();renderRecipes();
+try{
+  document.getElementById('did').addEventListener('change',function(){S.sd=this.value;save();renderDiet()});
+  updateHeader();
+  try{renderDash()}catch(e){console.log('renderDash error:',e)}
+  var tk=todayKey();
+  try{renderWeek('fws',tk)}catch(e){}
+  try{showWD(tk)}catch(e){}
+}catch(e){console.log('init error:',e)}
+// 食谱和视频先渲染，不依赖 Chart.js
+try{renderVideos()}catch(e){console.log('videos error:',e)}
+try{renderRecipes()}catch(e){console.log('recipes error:',e)}
+try{renderWeightChart()}catch(e){console.log('chart error:',e)}
 
 
 </script>
