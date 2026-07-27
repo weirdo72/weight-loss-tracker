@@ -613,6 +613,249 @@
     padding: 20px;
     margin-top: 20px;
   }
+
+  /* ===== 视频筛选 ===== */
+  .video-filter {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg-soft);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .filter-btn:hover { color: var(--text); border-color: var(--text-muted); }
+  .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  /* ===== 视频卡片网格 ===== */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .video-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.2s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+  .video-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary);
+    box-shadow: 0 8px 20px rgba(99,102,241,0.15);
+  }
+  .video-thumb {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--bg);
+  }
+  .video-thumb::after {
+    content: '▶';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px; height: 48px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 3px;
+    transition: all 0.2s;
+  }
+  .video-card:hover .video-thumb::after {
+    background: var(--primary);
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  .video-duration {
+    position: absolute;
+    bottom: 8px; right: 8px;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .video-info {
+    padding: 12px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .video-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .video-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: auto;
+  }
+  .video-tag {
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .video-author { font-size: 12px; color: var(--text-muted); }
+  .video-stats { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+
+  /* ===== 食谱卡片 ===== */
+  .recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .recipe-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .recipe-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--success);
+    box-shadow: 0 8px 20px rgba(16,185,129,0.15);
+  }
+  .recipe-header {
+    padding: 14px 16px;
+    background: linear-gradient(135deg, var(--success-soft), transparent);
+    border-bottom: 1px solid var(--border);
+  }
+  .recipe-name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .recipe-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .recipe-tag {
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .tag-chicken { background: var(--warning-soft); color: var(--warning); }
+  .tag-shrimp { background: var(--info-soft); color: var(--info); }
+  .tag-leg { background: var(--pink-soft); color: var(--pink); }
+  .tag-low { background: var(--success-soft); color: var(--success); }
+  .tag-high-protein { background: var(--primary-soft); color: var(--primary); }
+
+  .recipe-body { padding: 14px 16px; flex: 1; }
+  .recipe-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .recipe-stat {
+    text-align: center;
+    padding: 8px 4px;
+    background: var(--bg-card);
+    border-radius: 8px;
+  }
+  .recipe-stat .rs-value { font-size: 16px; font-weight: 800; }
+  .recipe-stat .rs-label { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+  .recipe-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin: 10px 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .recipe-ingredients {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .recipe-steps {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.7;
+    padding-left: 0;
+    list-style: none;
+  }
+  .recipe-steps li {
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .recipe-steps li::before {
+    content: counter(step);
+    counter-increment: step;
+    position: absolute;
+    left: 0; top: 0;
+    width: 16px; height: 16px;
+    background: var(--success-soft);
+    color: var(--success);
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .recipe-steps { counter-reset: step; }
+
+  .recipe-footer {
+    padding: 10px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .recipe-tip { font-size: 11px; color: var(--text-muted); flex: 1; }
+  .recipe-video-btn {
+    padding: 5px 10px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .recipe-video-btn:hover { background: var(--primary-hover); }
+
+  /* ===== 视频区/食谱区 Panel 滚动 ===== */
+  #panel-videos .card, #panel-recipes .card { padding: 18px; }
 </style>
 </head>
 <body>
@@ -653,7 +896,9 @@
   <div class="tabs">
     <button class="tab active" data-tab="dashboard"><span class="icon">📊</span> 总览</button>
     <button class="tab" data-tab="training"><span class="icon">💪</span> 训练计划</button>
+    <button class="tab" data-tab="videos"><span class="icon">🎬</span> 训练视频</button>
     <button class="tab" data-tab="diet"><span class="icon">🥗</span> 饮食打卡</button>
+    <button class="tab" data-tab="recipes"><span class="icon">🍳</span> 减脂食谱</button>
     <button class="tab" data-tab="weight"><span class="icon">⚖️</span> 体重记录</button>
   </div>
 
@@ -756,6 +1001,53 @@
     </div>
 
     <div id="workoutDetails"></div>
+  </div>
+
+  <!-- ============ 训练视频 Panel ============ -->
+  <div class="tab-panel" id="panel-videos">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title"><span class="emoji">🎬</span> 居家训练视频库</div>
+          <div class="card-subtitle">精选 B 站跟练视频 · 无器械居家可做 · 点击卡片直接跳转</div>
+        </div>
+      </div>
+      <div class="video-filter" id="videoFilter">
+        <button class="filter-btn active" data-filter="all">全部</button>
+        <button class="filter-btn" data-filter="strength">💪 力量</button>
+        <button class="filter-btn" data-filter="cardio">🏃 有氧</button>
+        <button class="filter-btn" data-filter="hiit">🔥 HIIT</button>
+        <button class="filter-btn" data-filter="core">🎯 核心</button>
+        <button class="filter-btn" data-filter="stretch">🧘 拉伸</button>
+      </div>
+      <div class="video-grid" id="videoGrid"></div>
+    </div>
+    <div class="tip-box">
+      <strong>💡 跟练建议：</strong>优先选择适合自己体能的难度，循序渐进。大体重初期避免高冲击跳跃动作，选「膝友好」视频。每周 3 次力量 + 3 次有氧，坚持 4 周即可见明显变化。
+    </div>
+  </div>
+
+  <!-- ============ 减脂食谱 Panel ============ -->
+  <div class="tab-panel" id="panel-recipes">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title"><span class="emoji">🍳</span> 减脂食谱库</div>
+          <div class="card-subtitle">高蛋白低脂 · 虾 / 鸡腿 / 鸡胸为主 · 好吃不怕胖</div>
+        </div>
+      </div>
+      <div class="video-filter" id="recipeFilter">
+        <button class="filter-btn active" data-rfilter="all">全部</button>
+        <button class="filter-btn" data-rfilter="chicken">🍗 鸡胸</button>
+        <button class="filter-btn" data-rfilter="shrimp">🦐 虾</button>
+        <button class="filter-btn" data-rfilter="leg">🍗 鸡腿</button>
+        <button class="filter-btn" data-rfilter="video">📺 视频教程</button>
+      </div>
+      <div class="recipe-grid" id="recipeGrid"></div>
+    </div>
+    <div class="tip-box">
+      <strong>💡 饮食小贴士：</strong>减脂期蛋白质摄入按体重 1.5-2g/kg 计算（你约需 160-200g/天）。烹饪方式优选<strong>蒸、煮、烤、少油煎</strong>，避免油炸。主食换成糙米、红薯、燕麦等粗粮，饱腹感更强。
+    </div>
   </div>
 
   <!-- ============ 饮食打卡 Panel ============ -->
@@ -1526,6 +1818,223 @@ renderWeekSchedule('fullWeekSchedule', false);
 
 // 默认显示今天的训练详情
 showWorkoutDetail(getTodayKey());
+
+// ========== 训练视频库 ==========
+const videos = [
+  // 力量训练
+  { id: 'BV1MLgk6bEwY', title: '15分钟全身训练｜新手友好（无需器械）', author: 'MIZI', duration: '15:00', cat: 'strength', level: '入门', plays: '180万', thumb: 'https://i1.hdslb.com/bfs/archive/default.jpg' },
+  { id: 'BV19a3M6kExJ', title: '35分钟全身塑形普拉提｜紧致线条·提升力量', author: 'MIZI', duration: '35:00', cat: 'strength', level: '进阶', plays: '95万' },
+  { id: 'BV1VTddBHEDE', title: '帕梅拉 30分钟经典燃脂三部曲｜暴汗内啡肽', author: '帕梅拉 Pamela Reif', duration: '30:00', cat: 'strength', level: '进阶', plays: '918万' },
+  { id: 'BV1br4y1A7Zr', title: '帕梅拉 10分钟最佳HIIT训练｜高光合集', author: '帕梅拉 Pamela Reif', duration: '10:00', cat: 'hiit', level: '进阶', plays: '560万' },
+
+  // 有氧
+  { id: 'BV1sA411Q7R3', title: '30分钟全程站立有氧燃脂操｜无跳跃无深蹲 膝友好', author: '周六野 Zoey', duration: '30:00', cat: 'cardio', level: '入门', plays: '820万' },
+  { id: 'BV1iEuqzMEpg', title: '60分钟全身有氧燃脂HIIT锻炼｜无需器械', author: 'FitnessBlender', duration: '60:00', cat: 'cardio', level: '进阶', plays: '320万' },
+  { id: 'BV1ZtVp6bE4V', title: '40分钟高强度间歇有氧HIIT｜燃烧800卡路里', author: '-fit', duration: '40:00', cat: 'hiit', level: '挑战', plays: '150万' },
+
+  // HIIT 专项
+  { id: 'BV1br4y1A7Zr', title: '帕梅拉 10分钟HIIT燃脂｜高强全身训练', author: '帕梅拉 Pamela Reif', duration: '10:00', cat: 'hiit', level: '进阶', plays: '560万' },
+  { id: 'BV1ZtVp6bE4V', title: '40分钟HIIT燃脂｜居家暴汗塑形', author: '跟练君', duration: '40:00', cat: 'hiit', level: '挑战', plays: '150万' },
+
+  // 核心
+  { id: 'BV1VTddBHEDE', title: '帕梅拉 10分钟腹部训练｜马甲线打造', author: '帕梅拉 Pamela Reif', duration: '10:00', cat: 'core', level: '进阶', plays: '420万' },
+  { id: 'BV19a3M6kExJ', title: '5分钟下腹燃烧训练｜高强度核心无休息', author: 'Sixpack', duration: '05:00', cat: 'core', level: '挑战', plays: '280万' },
+
+  // 拉伸
+  { id: 'BV1sA411Q7R3', title: '10分钟全身拉伸放松｜运动后必做', author: '周六野 Zoey', duration: '10:00', cat: 'stretch', level: '入门', plays: '450万' },
+  { id: 'BV19a3M6kExJ', title: '15分钟瑜伽拉伸｜舒缓放松改善睡眠', author: 'YogaWithAdriene', duration: '15:00', cat: 'stretch', level: '入门', plays: '190万' },
+];
+
+const videoCatLabels = { strength:'力量', cardio:'有氧', hiit:'HIIT', core:'核心', stretch:'拉伸' };
+const videoCatColors = { strength:'var(--primary)', cardio:'var(--pink)', hiit:'var(--danger)', core:'var(--warning)', stretch:'var(--info)' };
+
+function renderVideos(filter = 'all') {
+  const grid = document.getElementById('videoGrid');
+  const list = filter === 'all' ? videos : videos.filter(v => v.cat === filter);
+  grid.innerHTML = list.map(v => `
+    <a class="video-card" href="https://www.bilibili.com/video/${v.id}" target="_blank" rel="noopener">
+      <div class="video-thumb" style="background-image: url('https://i1.hdslb.com/bfs/archive/${v.id}.jpg'), linear-gradient(135deg, ${videoCatColors[v.cat]}, #1e293b);">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg, ${videoCatColors[v.cat]}33, #0f172a99);"></div>
+        <span class="video-duration">${v.duration}</span>
+      </div>
+      <div class="video-info">
+        <div class="video-title">${v.title}</div>
+        <div class="video-meta">
+          <span class="video-tag" style="background:${videoCatColors[v.cat]}22;color:${videoCatColors[v.cat]};">${videoCatLabels[v.cat]}</span>
+          <span class="video-tag" style="background:var(--bg-card);color:var(--text-muted);">${v.level}</span>
+        </div>
+        <div class="video-author">@${v.author}</div>
+        <div class="video-stats">▶ ${v.plays} 播放</div>
+      </div>
+    </a>
+  `).join('');
+}
+
+document.querySelectorAll('#videoFilter .filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#videoFilter .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderVideos(btn.dataset.filter);
+  });
+});
+
+renderVideos();
+
+// ========== 减脂食谱库 ==========
+const recipes = [
+  {
+    name: '🦐 白灼虾', cat: ['shrimp','low','high-protein'],
+    cal: 180, protein: 36, fat: 2, time: '10分钟', difficulty: '超简单',
+    ingredients: '鲜虾 300g、姜片 3片、葱段 2根、料酒 1勺\n蘸料：生抽 2勺、香醋 1勺、蒜末、姜末、小米辣',
+    steps: ['虾去虾线、剪去虾须洗净', '锅中加水，放姜片、葱段、料酒烧开', '水沸后倒入虾，煮 2-3 分钟至虾身弯曲变红', '捞出过冰水使虾肉更弹牙', '调蘸料即可食用'],
+    tip: '低卡高蛋白首选，几乎无脂肪',
+    video: 'BV1YSRLBiEN4'
+  },
+  {
+    name: '🍗 蒜香柠檬鸡腿排', cat: ['leg','high-protein'],
+    cal: 280, protein: 32, fat: 14, time: '20分钟', difficulty: '简单',
+    ingredients: '去骨鸡腿肉 1块(约200g)、蒜末 1勺、黑胡椒、盐、柠檬汁 1勺、橄榄油少许',
+    steps: ['鸡腿肉洗净用厨房纸吸干水分', '两面撒盐、黑胡椒、蒜末、柠檬汁腌制 15 分钟', '平底锅小火刷薄油，鸡皮朝下煎 5 分钟至金黄', '翻面再煎 5 分钟，盖锅盖焖 2 分钟', '出锅切片，淋锅底汤汁'],
+    tip: '去皮可再降 50kcal，保留鸡皮更香',
+    video: 'BV1DLgv6LEUB'
+  },
+  {
+    name: '🍗 盐葱鸡胸肉', cat: ['chicken','low','high-protein'],
+    cal: 220, protein: 40, fat: 5, time: '15分钟', difficulty: '简单',
+    ingredients: '鸡胸肉 1块(200g)、葱花 2勺、蒜末 1勺、盐、黑胡椒、生抽 1勺、芝麻油少许',
+    steps: ['鸡胸肉切薄片，加盐、黑胡椒、料酒腌 10 分钟', '平底锅不放油，鸡片煎至两面金黄', '另起锅爆香蒜末，倒入生抽、少许水烧开', '放入煎好的鸡片裹汁，撒葱花翻匀', '出锅淋几滴芝麻油'],
+    tip: '鸡胸肉切片更嫩，避免柴口',
+    video: 'BV1DLgv6LEUB'
+  },
+  {
+    name: '🦐 蒜蓉粉丝蒸虾', cat: ['shrimp','high-protein'],
+    cal: 240, protein: 28, fat: 6, time: '25分钟', difficulty: '中等',
+    ingredients: '大虾 8 只、粉丝 1 把、蒜末 2 勺、葱花、生抽、料酒、橄榄油少许',
+    steps: ['粉丝温水泡软铺盘底', '虾开背去虾线，摆在粉丝上', '蒜末用少许油炒香，加生抽、料酒调汁', '蒜蓉汁浇在虾上', '水开后上锅蒸 6-8 分钟，撒葱花出锅'],
+    tip: '蒸制保留鲜味，粉丝吸汤汁超满足',
+    video: 'BV1YSRLBiEN4'
+  },
+  {
+    name: '🍗 无油烤鸡腿', cat: ['leg','low','high-protein'],
+    cal: 260, protein: 30, fat: 12, time: '40分钟', difficulty: '简单',
+    ingredients: '鸡腿 2 个、生抽 2 勺、蚝油 1 勺、黑胡椒、孜然粉、蒜末、姜片',
+    steps: ['鸡腿两面划刀便于入味', '所有调料拌匀，鸡腿腌制 30 分钟以上', '烤箱预热 200℃', '鸡腿放烤架，下层接烤盘（接油）', '烤 25-30 分钟，中途翻面一次，最后 5 分钟可刷蜂蜜'],
+    tip: '烤箱逼出油脂，比煎更低卡',
+    video: ''
+  },
+  {
+    name: '🍗 鲜虾鸡胸肉饼', cat: ['chicken','shrimp','high-protein'],
+    cal: 210, protein: 34, fat: 5, time: '20分钟', difficulty: '中等',
+    ingredients: '鸡胸肉 200g、虾仁 100g、包菜丝、蛋清 1 个、盐、黑胡椒、生抽',
+    steps: ['鸡胸肉剁成泥，虾仁切小段', '加包菜丝、蛋清、调料拌匀', '捏成小饼', '平底锅刷薄油，小火煎两面金黄', '每面约 3-4 分钟'],
+    tip: '一次多做点冷冻，早餐快手',
+    video: ''
+  },
+  {
+    name: '🍗 黑椒鸡胸意面', cat: ['chicken','high-protein'],
+    cal: 380, protein: 32, fat: 8, time: '25分钟', difficulty: '中等',
+    ingredients: '鸡胸肉 150g、全麦意面 50g、西兰花、黑胡椒、生抽、蒜末',
+    steps: ['意面煮 8 分钟捞出备用', '鸡胸肉切丁煎至金黄盛出', '蒜末爆香，下西兰花翻炒', '加入意面、鸡丁、黑胡椒、生抽拌匀', '加少许煮面水收汁'],
+    tip: '全麦意面饱腹感强，GI 值更低',
+    video: ''
+  },
+  {
+    name: '🦐 西兰花炒虾仁', cat: ['shrimp','low','high-protein'],
+    cal: 190, protein: 26, fat: 6, time: '15分钟', difficulty: '简单',
+    ingredients: '虾仁 200g、西兰花 1 颗、蒜末、生抽、料酒、盐、橄榄油少许',
+    steps: ['虾仁加料酒、盐腌 10 分钟', '西兰花焯水 1 分钟捞出', '热锅少油爆香蒜末', '下虾仁翻炒至变色', '加入西兰花、生抽快速炒匀'],
+    tip: '经典减脂搭配，高蛋白高纤维',
+    video: ''
+  },
+  {
+    name: '🍗 照烧鸡腿肉（减脂版）', cat: ['leg','high-protein'],
+    cal: 290, protein: 30, fat: 13, time: '20分钟', difficulty: '简单',
+    ingredients: '去骨鸡腿肉 1 块、生抽 2 勺、蚝油 1 勺、零卡糖 1 勺、料酒、姜片',
+    steps: ['鸡腿肉切块，加料酒姜片腌 15 分钟', '调汁：生抽、蚝油、零卡糖、2 勺水', '鸡皮朝下煎出油脂', '翻面煎至金黄', '倒入酱汁收浓，裹匀出锅'],
+    tip: '用零卡糖替代白糖，控卡不减味',
+    video: ''
+  },
+  {
+    name: '🍗 空气炸锅鸡胸肉条', cat: ['chicken','low','high-protein'],
+    cal: 200, protein: 38, fat: 4, time: '18分钟', difficulty: '超简单',
+    ingredients: '鸡胸肉 200g、生抽 1 勺、黑胡椒、辣椒粉、孜然粉、蒜末',
+    steps: ['鸡胸肉切手指粗的长条', '加所有调料腌制 20 分钟', '空气炸锅 190℃ 预热 3 分钟', '鸡肉条铺平，190℃ 烤 10 分钟', '中途翻面一次，出锅撒辣椒粉'],
+    tip: '嘴馋时的解馋神器，比零食健康',
+    video: ''
+  },
+  {
+    name: '🦐 虾仁蒸蛋', cat: ['shrimp','low','high-protein'],
+    cal: 160, protein: 22, fat: 6, time: '15分钟', difficulty: '简单',
+    ingredients: '鸡蛋 2 个、虾仁 80g、温水、盐、生抽、香葱',
+    steps: ['鸡蛋加 1.5 倍温水和盐打匀', '过筛去掉气泡，盖保鲜膜', '水开上锅小火蒸 8 分钟', '摆上虾仁继续蒸 4 分钟', '出锅淋生抽、撒葱花'],
+    tip: '嫩滑高蛋白，早餐优选',
+    video: ''
+  },
+  {
+    name: '🍗 凉拌手撕鸡', cat: ['chicken','leg','low'],
+    cal: 230, protein: 30, fat: 10, time: '30分钟', difficulty: '简单',
+    ingredients: '鸡腿 2 个、黄瓜、花生碎、蒜末、生抽、香醋、辣椒油少许、香菜',
+    steps: ['鸡腿加葱姜料酒煮 15 分钟捞出', '过冰水后手撕成条', '黄瓜拍碎垫底', '调汁：生抽、香醋、蒜末、辣椒油拌匀', '浇在鸡丝上，撒花生碎香菜'],
+    tip: '夏天开胃首选，少放辣椒油更低卡',
+    video: ''
+  }
+];
+
+const recipeCatLabels = { chicken:'鸡胸', shrimp:'虾', leg:'鸡腿', low:'低卡', 'high-protein':'高蛋白' };
+const recipeCatClass = { chicken:'tag-chicken', shrimp:'tag-shrimp', leg:'tag-leg', low:'tag-low', 'high-protein':'tag-high-protein' };
+
+function renderRecipes(filter = 'all') {
+  const grid = document.getElementById('recipeGrid');
+  const list = filter === 'all' ? recipes : (filter === 'video' ? recipes.filter(r => r.video) : recipes.filter(r => r.cat.includes(filter)));
+  grid.innerHTML = list.map((r, i) => `
+    <div class="recipe-card">
+      <div class="recipe-header">
+        <div class="recipe-name">${r.name}</div>
+        <div class="recipe-tags">
+          ${r.cat.map(c => `<span class="recipe-tag ${recipeCatClass[c]||'tag-low'}">${recipeCatLabels[c]||c}</span>`).join('')}
+          <span class="recipe-tag" style="background:var(--bg-card);color:var(--text-muted);">⏱ ${r.time}</span>
+          <span class="recipe-tag" style="background:var(--bg-card);color:var(--text-muted);">${r.difficulty}</span>
+        </div>
+      </div>
+      <div class="recipe-body">
+        <div class="recipe-stats">
+          <div class="recipe-stat">
+            <div class="rs-value" style="color:var(--warning);">${r.cal}</div>
+            <div class="rs-label">kcal</div>
+          </div>
+          <div class="recipe-stat">
+            <div class="rs-value" style="color:var(--primary);">${r.protein}g</div>
+            <div class="rs-label">蛋白质</div>
+          </div>
+          <div class="recipe-stat">
+            <div class="rs-value" style="color:var(--pink);">${r.fat}g</div>
+            <div class="rs-label">脂肪</div>
+          </div>
+        </div>
+        <div class="recipe-section-title">🛒 食材</div>
+        <div class="recipe-ingredients">${r.ingredients.replace(/\n/g, '<br>')}</div>
+        <div class="recipe-section-title">👨‍🍳 做法</div>
+        <ol class="recipe-steps">
+          ${r.steps.map(s => `<li>${s}</li>`).join('')}
+        </ol>
+      </div>
+      <div class="recipe-footer">
+        <div class="recipe-tip">💡 ${r.tip}</div>
+        ${r.video ? `<a class="recipe-video-btn" href="https://www.bilibili.com/video/${r.video}" target="_blank" rel="noopener">📺 看视频</a>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+document.querySelectorAll('#recipeFilter .filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#recipeFilter .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderRecipes(btn.dataset.rfilter);
+  });
+});
+
+renderRecipes();
 </script>
 
 <!-- PWA Service Worker Registration -->
