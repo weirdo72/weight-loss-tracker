@@ -150,6 +150,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
 .rp-btn{padding:6px 16px;border-radius:20px;border:none;font-size:11px;font-weight:600;cursor:pointer;margin-top:8px}
 .rp-btn.reroll{background:var(--p);color:#fff}
 .rp-week{display:flex;justify-content:space-between;font-size:10px;color:var(--tx3);margin-bottom:6px}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.rp-box{cursor:pointer;transition:transform .2s}
+.rp-box:active{transform:scale(.96)}
 </style>
 </head>
 <body>
@@ -486,9 +489,73 @@ function addWeight(){
   document.getElementById('wv').value='';showToast('✅ 体重已记录');
 }
 
-// ===== REWARD & PUNISH =====
-var rewards=['🛍️ 买一件新运动装备','🎬 看一场想看的电影','🍕 吃一顿欺骗餐（控制在500kcal内）','💆 做个按摩犒劳自己','🎮 畅玩2小时游戏','📖 买一本喜欢的书','🧖 做一次面部护理','🍰 吃一块低卡甜点','🛒 买一件心仪的小物','🎵 买一张数字专辑'];
-var punishments=['🧋 禁奶茶/甜饮一周','🔥 多做一组20分钟HIIT','📵 今晚睡前不刷手机','🚶 这周多走10000步','🍬 禁零食一周','⏰ 连续3天早睡（23:00前）','🥤 只能喝白水/黑咖啡一周','🧹 给家里做大扫除','📱 今晚不刷短视频','🍜 这周不吃夜宵'];
+// ===== REWARD & PUNISH 盲盒系统 =====
+// 奖励池：分3级，掉秤越多抽的级别越高
+var rewardPool={
+  s:[  // 掉秤≥1.5kg - SSR 超级奖励
+    '🏖️ 放纵一整天！吃啥都行不计卡路里',
+    '💎 买那件你收藏了好久的东西',
+    '🎫 周末短途旅行走起',
+    '🍣 去吃一顿日料omakase',
+    '👟 入手那双心仪已久的跑鞋',
+    '⌚ 给自己添个新数码小件',
+    '🧖‍♀️ SPA级全身护理安排上',
+    '🎪 去游乐园/音乐节嗨一天'
+  ],
+  a:[  // 掉秤0.5-1.5kg - SR 高级奖励
+    '🍕 吃一顿欺骗餐（控制800kcal内）',
+    '🎬 看场IMAX电影+大桶爆米花',
+    '🛍️ 买一件新运动装备',
+    '🍰 吃一块芝士蛋糕不内疚',
+    '🎮 畅玩3小时游戏无人打扰',
+    '💆 做个按摩放松一下',
+    '📚 买三本想看的书',
+    '🎵 充一年音乐会员'
+  ],
+  b:[  // 掉秤0.1-0.5kg - R 普通奖励
+    '☕ 喝一杯燕麦拿铁不加糖',
+    '🍦 吃一个低卡冰淇淋',
+    '🎧 今晚戴上耳机散步1小时',
+    '🛁 泡个热水澡+敷面膜',
+    '📺 追剧2小时不做任何事',
+    '🍓 买一盒新鲜草莓/车厘子',
+    '🧘 周末睡到自然醒',
+    '🌸 给自己买束鲜花'
+  ]
+};
+// 惩罚池：分3级，涨秤越多惩罚越狠
+var punishPool={
+  s:[  // 涨秤≥1kg - SSS 魔鬼惩罚
+    '🧋 禁一切甜饮奶茶2周！',
+    '🔥 每天多做30分钟有氧持续1周',
+    '📵 每晚21:00后断网！看书/冥想',
+    '🏃 这周跑20公里（可分次完成）',
+    '🍜 连续7天不吃晚饭（16:8断食）',
+    '📔 每天写饮食日记发朋友圈打卡7天',
+    '🚫 禁外卖2周，全部自己做',
+    '⏰ 每天6:30起床晨练持续1周'
+  ],
+  a:[  // 涨秤0.3-1kg - SR 严厉惩罚
+    '🧋 禁奶茶/甜饮1周',
+    '🔥 这周多做3组HIIT训练',
+    '📵 睡前1小时不碰手机持续1周',
+    '🚶 这周多走20000步',
+    '🍬 禁零食/宵夜1周',
+    '🥗 这周晚餐只吃水煮菜',
+    '📱 每天刷短视频不超过30分钟',
+    '🧹 承包家里一周洗碗任务'
+  ],
+  b:[  // 涨秤0.1-0.3kg - R 轻度惩罚
+    '🧋 今天不能喝奶茶',
+    '🔥 今天多做1组核心训练',
+    '🚶 今天必须走满10000步',
+    '🥤 今天只能喝白水',
+    '🍜 今晚不吃宵夜',
+    '⏰ 今晚23:00前必须睡觉',
+    '📵 今晚不刷短视频',
+    '🪜 今天走楼梯不坐电梯'
+  ]
+};
 
 function getWeekRange(){
   var now=new Date(),day=now.getDay()||7;
@@ -501,47 +568,82 @@ function getWeekRange(){
   };
 }
 
+function randomPick(arr){return arr[Math.floor(Math.random()*arr.length)]}
+
+function getRPLevel(change,isReward){
+  var abs=Math.abs(change);
+  if(isReward){if(abs>=1.5)return's';if(abs>=0.5)return'a';return'b'}
+  else{if(abs>=1)return's';if(abs>=0.3)return'a';return'b'}
+}
+
+function getRPItem(change,isReward){
+  var level=getRPLevel(change,isReward);
+  var pool=isReward?rewardPool:punishPool;
+  return {level:level,item:randomPick(pool[level])};
+}
+
 function renderRP(){
   var el=document.getElementById('rp-board');if(!el)return;
   var ws=S.ws.slice().sort(function(a,b){return a.d.localeCompare(b.d)});
   var wk=getWeekRange();
   
-  // Get this week's records
   var thisWeek=ws.filter(function(w){return w.d>=wk.start&&w.d<=wk.end});
-  if(thisWeek.length<2){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--tx3);font-size:13px">本周还需至少2次称重<br>坚持每天早晨空腹称重哦</div>';return;}
+  if(thisWeek.length<2){el.innerHTML='<div style="text-align:center;padding:24px 20px;color:var(--tx3);font-size:13px;line-height:1.8"><div style="font-size:40px;margin-bottom:8px">📦</div>本周还需至少<b style="color:var(--ph)">2次</b>称重才能拆盲盒<br>坚持每天早晨空腹称重哦</div>';return;}
   
   var firstW=thisWeek[0].w,lastW=thisWeek[thisWeek.length-1].w;
   var change=lastW-firstW;
   
-  // Get or generate this week's RP
   var rpKey='rp_'+wk.start;
   if(!S[rpKey]){
-    if(change<-0.1){S[rpKey]={type:'reward',item:rewards[Math.floor(Math.random()*rewards.length)],change:change}}
-    else if(change>0.1){S[rpKey]={type:'punish',item:punishments[Math.floor(Math.random()*punishments.length)],change:change}}
-    else{S[rpKey]={type:'neutral',item:'体重持平，继续保持！',change:change}}
+    if(change<-0.05){var rp=getRPItem(change,true);S[rpKey]={type:'reward',level:rp.level,item:rp.item,change:change,opened:false}}
+    else if(change>0.05){var rp=getRPItem(change,false);S[rpKey]={type:'punish',level:rp.level,item:rp.item,change:change,opened:false}}
+    else{S[rpKey]={type:'neutral',level:'b',item:'体重持平，稳住了！继续保持节奏 👏',change:change,opened:true}}
     save();
   }
   
   var rp=S[rpKey];
-  var icon=rp.type==='reward'?'🎉':rp.type==='punish'?'⚡':'😐';
-  var cls=rp.type==='reward'?'reward':rp.type==='punish'?'punish':'neutral';
-  var title=rp.type==='reward'?'🏆 本周奖励':rp.type==='punish'?'💪 本周惩罚':'📊 本周持平';
   var changeCls=change<0?'down':change>0?'up':'ne';
   var changeStr=change<0?'↓ '+Math.abs(change).toFixed(1):change>0?'↑ +'+change.toFixed(1):'→ 0.0';
   
-  var h='<div class="rp-week"><span>📅 '+wk.label+'</span><span>称重 '+thisWeek.length+' 次</span></div>';
-  h+='<div class="rp-result '+cls+'"><div class="rp-icon">'+icon+'</div><div class="rp-title">'+title+'</div>';
-  h+='<div class="rp-change '+changeCls+'">'+changeStr+' kg</div>';
-  h+='<div class="rp-desc">'+rp.item+'</div>';
-  h+='<button class="rp-btn reroll" onclick="rerollRP()">🎲 换一个</button></div>';
-  el.innerHTML=h;
+  if(rp.type==='neutral'){
+    el.innerHTML='<div class="rp-week"><span>📅 '+wk.label+'</span><span>称重 '+thisWeek.length+' 次</span></div><div class="rp-result neutral"><div class="rp-icon">😐</div><div class="rp-title">📊 本周持平</div><div class="rp-change ne">'+changeStr+' kg</div><div class="rp-desc">'+rp.item+'</div></div>';
+    return;
+  }
+  
+  var isReward=rp.type==='reward';
+  var levelLabel={s:isReward?'SSR·超级盲盒':'SSS·魔鬼盲盒',a:isReward?'SR·高级盲盒':'SR·严厉盲盒',b:isReward?'R·普通盲盒':'R·轻度盲盒'}[rp.level];
+  var levelEmoji={s:isReward?'💎':'💀',a:isReward?'🎁':'😤',b:isReward?'🎈':'😅'}[rp.level];
+  
+  if(!rp.opened){
+    // 未拆盲盒状态
+    var boxColors={s:isReward?'linear-gradient(135deg,#f59e0b,#ef4444)':'linear-gradient(135deg,#4b0082,#8b0000)',a:isReward?'linear-gradient(135deg,#6366f1,#8b5cf6)':'linear-gradient(135deg,#dc2626,#f97316)',b:isReward?'linear-gradient(135deg,#10b981,#06b6d4)':'linear-gradient(135deg,#f97316,#fbbf24)'}[rp.level];
+    el.innerHTML='<div class="rp-week"><span>📅 '+wk.label+'</span><span>称重 '+thisWeek.length+' 次</span></div><div class="rp-change '+changeCls+'" style="text-align:center;font-size:22px;margin-bottom:8px">'+changeStr+' kg</div><div class="rp-box" style="background:'+boxColors+';border-radius:16px;padding:24px 16px;text-align:center;cursor:pointer;position:relative;overflow:hidden" onclick="openBox()"><div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.3);border-radius:16px"></div><div style="position:relative;z-index:1"><div style="font-size:50px;animation:bounce 1s infinite">'+levelEmoji+'</div><div style="font-size:14px;font-weight:700;color:#fff;margin:8px 0">'+levelLabel+'</div><div style="font-size:11px;color:rgba(255,255,255,.7)">👆 点击拆开盲盒</div></div></div>';
+    return;
+  }
+  
+  // 已拆盲盒状态
+  var boxColors2={s:isReward?'rgba(245,158,11,.1)':'rgba(139,0,0,.15)',a:isReward?'rgba(99,102,241,.1)':'rgba(220,38,38,.1)',b:isReward?'rgba(16,185,129,.1)':'rgba(249,115,22,.1)'}[rp.level];
+  var borderColors={s:isReward?'#f59e0b':'#8b0000',a:isReward?'#6366f1':'#dc2626',b:isReward?'#10b981':'#f97316'}[rp.level];
+  var titleIcon=isReward?'🎉':'💪';
+  var title=isReward?'拆到了奖励！':'抽到了惩罚…';
+  
+  el.innerHTML='<div class="rp-week"><span>📅 '+wk.label+'</span><span>称重 '+thisWeek.length+' 次</span></div><div class="rp-change '+changeCls+'" style="text-align:center;font-size:20px;margin-bottom:8px">'+changeStr+' kg</div><div class="rp-open" style="background:'+boxColors2+';border:2px solid '+borderColors+';border-radius:16px;padding:20px 16px;text-align:center"><div style="font-size:36px;margin-bottom:4px">'+levelEmoji+'</div><div style="font-size:10px;color:var(--tx3);margin-bottom:4px">'+levelLabel+'</div><div style="font-size:16px;font-weight:700;margin-bottom:2px">'+titleIcon+' '+title+'</div><div style="font-size:14px;color:var(--tx);line-height:1.6;margin:10px 0">'+rp.item+'</div><button class="rp-btn reroll" onclick="rerollRP()" style="margin-top:8px">🎲 再抽一次</button></div>';
+}
+
+function openBox(){
+  var wk=getWeekRange(),rpKey='rp_'+wk.start;
+  var rp=S[rpKey];if(!rp||rp.opened)return;
+  S[rpKey].opened=true;save();renderRP();
+  var isReward=rp.type==='reward';
+  showToast(isReward?'🎉 恭喜！拆到了奖励！':rp.type==='punish'?'😤 抽到了惩罚！加油！':'');
 }
 
 function rerollRP(){
   var wk=getWeekRange(),rpKey='rp_'+wk.start;
   var rp=S[rpKey];if(!rp)return;
-  var pool=rp.type==='reward'?rewards:rp.type==='punish'?punishments:[];
-  if(pool.length){S[rpKey].item=pool[Math.floor(Math.random()*pool.length)];save();renderRP();showToast('🎲 已更换');}
+  var isReward=rp.type==='reward';
+  var newItem=getRPItem(rp.change,isReward);
+  S[rpKey].level=newItem.level;S[rpKey].item=newItem.item;save();renderRP();showToast('🎲 已重新抽取');
 }
 
 // ===== FILTER BUTTONS =====
