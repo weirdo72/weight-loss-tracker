@@ -383,7 +383,7 @@ function showWD(tk){
   var rel=videos.filter(function(v){return v.cat===todayPlan||v.cat==='strength'});
   if(todayPlan==='rest'){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--tx3)">😴 今天是休息日<br>好好恢复，可以做拉伸</div>';return}
   var h='<div style="font-size:12px;color:var(--tx2);margin-bottom:8px">推荐训练：</div>';
-  rel.slice(0,3).forEach(function(v){h+='<div class="act-item"><div><div class="act-name">'+v.title+'</div><div class="act-meta">⏱ '+v.dur+' · '+v.level+' · '+v.plays+'播放</div></div><a class="act-link" href="https://www.bilibili.com/video/'+v.id+'" target="_blank">▶ 播放</a></div>'});
+  rel.slice(0,3).forEach(function(v){h+='<div class="act-item"><div><div class="act-name">'+v.title+'</div><div class="act-meta">⏱ '+v.dur+' · '+v.level+' · '+v.plays+'播放</div></div><a class="act-link" href="https://www.bilibili.com/video/'+v.id+'" target="_blank">▶ B站播放</a></div>'});
   el.innerHTML=h;
 }
 
@@ -440,7 +440,7 @@ function renderRecipes(f){
     r.cat.forEach(function(c){h+='<span class="rt '+(rcc[c]||'rtlo')+'">'+(rcl[c]||c)+'</span>'});
     h+='<span class="rt" style="background:var(--bg);color:var(--tx2)">⏱ '+r.time+'</span><span class="rt" style="background:var(--bg);color:var(--tx2)">'+r.diff+'</span></div></div><div class="rb"><div class="rstats"><div class="rs2"><div class="rsv" style="color:var(--w)">'+r.cal+'</div><div class="rsl">kcal</div></div><div class="rs2"><div class="rsv" style="color:var(--p)">'+r.protein+'g</div><div class="rsl">蛋白质</div></div><div class="rs2"><div class="rsv" style="color:var(--pk)">'+r.fat+'g</div><div class="rsl">脂肪</div></div></div><div class="rst">🛒 食材</div><div class="ri">'+r.ing.replace(/\n/g,'<br>')+'</div><div class="rst">👨‍🍳 做法</div><ol class="rsteps">';
     r.steps.forEach(function(s){h+='<li>'+s+'</li>'});
-    h+='</ol></div><div class="rf"><div class="rtip">💡 '+r.tip+'</div>'+(r.video?'<a class="rvb" href="https://www.bilibili.com/video/'+r.video+'" target="_blank">📺 看视频</a>':'')+'</div></div>';
+    h+='</ol></div><div class="rf"><div class="rtip">💡 '+r.tip+'</div>'+(r.video?'<a class="rvb" href="'+r.video+'" target="_blank">📺 抖音看视频</a>':'')+'</div></div>';
   });
   document.getElementById('rg').innerHTML=h;
 }
