@@ -136,6 +136,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
 .act-name{font-size:13px}
 .act-meta{font-size:10px;color:var(--tx3)}
 .act-link{color:var(--ph);font-size:11px;text-decoration:none}
+.rp-result{padding:12px;border-radius:var(--rs);text-align:center;margin-top:8px}
+.rp-result.reward{background:var(--ss);border:1px solid var(--s)}
+.rp-result.punish{background:var(--ds);border:1px solid var(--d)}
+.rp-result.neutral{background:var(--bg);border:1px solid var(--bd)}
+.rp-icon{font-size:32px;margin-bottom:4px}
+.rp-title{font-size:14px;font-weight:700;margin-bottom:2px}
+.rp-desc{font-size:12px;color:var(--tx2);line-height:1.6}
+.rp-change{font-size:20px;font-weight:700;margin:6px 0}
+.rp-change.down{color:var(--s)}
+.rp-change.up{color:var(--d)}
+.rp-change.ne{color:var(--tx2)}
+.rp-btn{padding:6px 16px;border-radius:20px;border:none;font-size:11px;font-weight:600;cursor:pointer;margin-top:8px}
+.rp-btn.reroll{background:var(--p);color:#fff}
+.rp-week{display:flex;justify-content:space-between;font-size:10px;color:var(--tx3);margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -273,6 +287,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
     <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--tx3);margin-top:4px">
       <span style="color:var(--d)">起始 105kg</span><span style="color:var(--s)">目标 95kg</span>
     </div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ctt">🎯 每周奖惩</div><div class="cs">每周日结算 · 激励自己坚持下去</div></div>
+    <div id="rp-board"><div style="text-align:center;padding:20px;color:var(--tx3);font-size:13px">记录一周体重后自动生成</div></div>
   </div>
   <div class="card">
     <div class="ch"><div class="ctt">📋 历史记录</div></div>
@@ -464,8 +482,66 @@ function addWeight(){
   if(!d)return showToast('请选择日期');if(!w||w<30||w>200)return showToast('请输入有效体重');
   S.ws=S.ws.filter(function(x){return x.d!==d});S.ws.push({d:d,w:w});
   S.ws.sort(function(a,b){return a.d.localeCompare(b.d)});
-  save();renderWeight();updateHeader();renderDash();
+  save();renderWeight();updateHeader();renderDash();renderRP();
   document.getElementById('wv').value='';showToast('✅ 体重已记录');
+}
+
+// ===== REWARD & PUNISH =====
+var rewards=['🛍️ 买一件新运动装备','🎬 看一场想看的电影','🍕 吃一顿欺骗餐（控制在500kcal内）','💆 做个按摩犒劳自己','🎮 畅玩2小时游戏','📖 买一本喜欢的书','🧖 做一次面部护理','🍰 吃一块低卡甜点','🛒 买一件心仪的小物','🎵 买一张数字专辑'];
+var punishments=['🧋 禁奶茶/甜饮一周','🔥 多做一组20分钟HIIT','📵 今晚睡前不刷手机','🚶 这周多走10000步','🍬 禁零食一周','⏰ 连续3天早睡（23:00前）','🥤 只能喝白水/黑咖啡一周','🧹 给家里做大扫除','📱 今晚不刷短视频','🍜 这周不吃夜宵'];
+
+function getWeekRange(){
+  var now=new Date(),day=now.getDay()||7;
+  var mon=new Date(now);mon.setDate(now.getDate()-day+1);
+  var sun=new Date(mon);sun.setDate(mon.getDate()+6);
+  return {
+    start:mon.getFullYear()+'-'+String(mon.getMonth()+1).padStart(2,'0')+'-'+String(mon.getDate()).padStart(2,'0'),
+    end:sun.getFullYear()+'-'+String(sun.getMonth()+1).padStart(2,'0')+'-'+String(sun.getDate()).padStart(2,'0'),
+    label:(mon.getMonth()+1)+'/'+mon.getDate()+'-'+(sun.getMonth()+1)+'/'+sun.getDate()
+  };
+}
+
+function renderRP(){
+  var el=document.getElementById('rp-board');if(!el)return;
+  var ws=S.ws.slice().sort(function(a,b){return a.d.localeCompare(b.d)});
+  var wk=getWeekRange();
+  
+  // Get this week's records
+  var thisWeek=ws.filter(function(w){return w.d>=wk.start&&w.d<=wk.end});
+  if(thisWeek.length<2){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--tx3);font-size:13px">本周还需至少2次称重<br>坚持每天早晨空腹称重哦</div>';return;}
+  
+  var firstW=thisWeek[0].w,lastW=thisWeek[thisWeek.length-1].w;
+  var change=lastW-firstW;
+  
+  // Get or generate this week's RP
+  var rpKey='rp_'+wk.start;
+  if(!S[rpKey]){
+    if(change<-0.1){S[rpKey]={type:'reward',item:rewards[Math.floor(Math.random()*rewards.length)],change:change}}
+    else if(change>0.1){S[rpKey]={type:'punish',item:punishments[Math.floor(Math.random()*punishments.length)],change:change}}
+    else{S[rpKey]={type:'neutral',item:'体重持平，继续保持！',change:change}}
+    save();
+  }
+  
+  var rp=S[rpKey];
+  var icon=rp.type==='reward'?'🎉':rp.type==='punish'?'⚡':'😐';
+  var cls=rp.type==='reward'?'reward':rp.type==='punish'?'punish':'neutral';
+  var title=rp.type==='reward'?'🏆 本周奖励':rp.type==='punish'?'💪 本周惩罚':'📊 本周持平';
+  var changeCls=change<0?'down':change>0?'up':'ne';
+  var changeStr=change<0?'↓ '+Math.abs(change).toFixed(1):change>0?'↑ +'+change.toFixed(1):'→ 0.0';
+  
+  var h='<div class="rp-week"><span>📅 '+wk.label+'</span><span>称重 '+thisWeek.length+' 次</span></div>';
+  h+='<div class="rp-result '+cls+'"><div class="rp-icon">'+icon+'</div><div class="rp-title">'+title+'</div>';
+  h+='<div class="rp-change '+changeCls+'">'+changeStr+' kg</div>';
+  h+='<div class="rp-desc">'+rp.item+'</div>';
+  h+='<button class="rp-btn reroll" onclick="rerollRP()">🎲 换一个</button></div>';
+  el.innerHTML=h;
+}
+
+function rerollRP(){
+  var wk=getWeekRange(),rpKey='rp_'+wk.start;
+  var rp=S[rpKey];if(!rp)return;
+  var pool=rp.type==='reward'?rewards:rp.type==='punish'?punishments:[];
+  if(pool.length){S[rpKey].item=pool[Math.floor(Math.random()*pool.length)];save();renderRP();showToast('🎲 已更换');}
 }
 
 // ===== FILTER BUTTONS =====
@@ -490,6 +566,7 @@ document.addEventListener('click',function(e){
   try{renderRecipes()}catch(e){console.log('recipes error:',e)}
   try{renderDiet()}catch(e){console.log('diet error:',e)}
   try{renderWeight()}catch(e){console.log('weight error:',e)}
+  try{renderRP()}catch(e){console.log('rp error:',e)}
 })();
 
 // Register Service Worker for PWA
