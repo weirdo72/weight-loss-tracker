@@ -2037,13 +2037,43 @@ document.querySelectorAll('#recipeFilter .filter-btn').forEach(btn => {
 renderRecipes();
 </script>
 
-<!-- PWA Service Worker Registration -->
+<!-- PWA Service Worker Registration + 自动更新 -->
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js')
-    .then(reg => console.log('✅ SW 注册成功', reg.scope))
+    .then(reg => {
+      console.log('✅ SW 注册成功', reg.scope);
+      // 每小时检查一次更新
+      setInterval(() => reg.update(), 60 * 60 * 1000);
+    })
     .catch(err => console.log('❌ SW 注册失败', err));
+
+  // 监听 Service Worker 发来的「已更新」消息 → 自动刷新页面
+  navigator.serviceWorker.addEventListener('message', event => {
+    if (event.data && (event.data.type === 'SW_UPDATED' || event.data.type === 'UPDATE_AVAILABLE')) {
+      console.log('🔄 检测到新版本，正在刷新...');
+      // 避免用户正在输入时刷新，用 confirm 确认
+      if (document.querySelector('.form-input:focus') || document.querySelector('.form-textarea:focus')) {
+        // 用户在输入，延迟刷新
+        setTimeout(() => location.reload(), 5000);
+      } else {
+        location.reload();
+      }
+    }
+  });
+
+  // 检测到新 SW 控制器更换时刷新
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    console.log('🔄 SW 控制器已更换');
+  });
 }
+
+// 页面可见性变化时检查更新（从后台切回前台）
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && navigator.serviceWorker && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.controller.postMessage({ type: 'CHECK_UPDATE' });
+  }
+});
 </script>
 
 </body>
